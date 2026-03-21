@@ -15,7 +15,7 @@
     "fix": "ultracite fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "format:json": "pnpm dlx sort-package-json package.json packages/*/package.json apps/*/package.json",
-    "postinstall": "pnpm run skills:install && pnpm run format:json",
+    "postinstall": "pnpm run format:json",
     "lint": "turbo run lint",
     "migrate": "cd packages/database && pnpm dlx prisma format && pnpm dlx prisma generate && pnpm dlx prisma migrate dev",
     "skills:install": "pnpm dlx skills experimental_install",
