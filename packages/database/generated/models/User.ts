@@ -201,6 +201,7 @@ export type UserWhereInput = {
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
   walletaddresss?: Prisma.WalletAddressListRelationFilter
+  commitments?: Prisma.CommitmentListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -214,6 +215,7 @@ export type UserOrderByWithRelationInput = {
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   walletaddresss?: Prisma.WalletAddressOrderByRelationAggregateInput
+  commitments?: Prisma.CommitmentOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -230,6 +232,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
   walletaddresss?: Prisma.WalletAddressListRelationFilter
+  commitments?: Prisma.CommitmentListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -269,6 +272,7 @@ export type UserCreateInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   walletaddresss?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  commitments?: Prisma.CommitmentCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -282,6 +286,7 @@ export type UserUncheckedCreateInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   walletaddresss?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  commitments?: Prisma.CommitmentUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -295,6 +300,7 @@ export type UserUpdateInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   walletaddresss?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  commitments?: Prisma.CommitmentUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -308,6 +314,7 @@ export type UserUncheckedUpdateInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   walletaddresss?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  commitments?: Prisma.CommitmentUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -433,6 +440,20 @@ export type UserUpdateOneRequiredWithoutWalletaddresssNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWalletaddresssInput, Prisma.UserUpdateWithoutWalletaddresssInput>, Prisma.UserUncheckedUpdateWithoutWalletaddresssInput>
 }
 
+export type UserCreateNestedOneWithoutCommitmentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommitmentsInput, Prisma.UserUncheckedCreateWithoutCommitmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommitmentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCommitmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommitmentsInput, Prisma.UserUncheckedCreateWithoutCommitmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommitmentsInput
+  upsert?: Prisma.UserUpsertWithoutCommitmentsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommitmentsInput, Prisma.UserUpdateWithoutCommitmentsInput>, Prisma.UserUncheckedUpdateWithoutCommitmentsInput>
+}
+
 export type UserCreateWithoutSessionsInput = {
   id: string
   name: string
@@ -443,6 +464,7 @@ export type UserCreateWithoutSessionsInput = {
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   walletaddresss?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  commitments?: Prisma.CommitmentCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -455,6 +477,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   walletaddresss?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  commitments?: Prisma.CommitmentUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -483,6 +506,7 @@ export type UserUpdateWithoutSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   walletaddresss?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  commitments?: Prisma.CommitmentUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -495,6 +519,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   walletaddresss?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  commitments?: Prisma.CommitmentUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -507,6 +532,7 @@ export type UserCreateWithoutAccountsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   walletaddresss?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  commitments?: Prisma.CommitmentCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -519,6 +545,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   walletaddresss?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  commitments?: Prisma.CommitmentUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -547,6 +574,7 @@ export type UserUpdateWithoutAccountsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   walletaddresss?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  commitments?: Prisma.CommitmentUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -559,6 +587,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   walletaddresss?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  commitments?: Prisma.CommitmentUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWalletaddresssInput = {
@@ -571,6 +600,7 @@ export type UserCreateWithoutWalletaddresssInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  commitments?: Prisma.CommitmentCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWalletaddresssInput = {
@@ -583,6 +613,7 @@ export type UserUncheckedCreateWithoutWalletaddresssInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  commitments?: Prisma.CommitmentUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWalletaddresssInput = {
@@ -611,6 +642,7 @@ export type UserUpdateWithoutWalletaddresssInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  commitments?: Prisma.CommitmentUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWalletaddresssInput = {
@@ -623,6 +655,75 @@ export type UserUncheckedUpdateWithoutWalletaddresssInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  commitments?: Prisma.CommitmentUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCommitmentsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  walletaddresss?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCommitmentsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  walletaddresss?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCommitmentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommitmentsInput, Prisma.UserUncheckedCreateWithoutCommitmentsInput>
+}
+
+export type UserUpsertWithoutCommitmentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCommitmentsInput, Prisma.UserUncheckedUpdateWithoutCommitmentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommitmentsInput, Prisma.UserUncheckedCreateWithoutCommitmentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCommitmentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCommitmentsInput, Prisma.UserUncheckedUpdateWithoutCommitmentsInput>
+}
+
+export type UserUpdateWithoutCommitmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  walletaddresss?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCommitmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  walletaddresss?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -634,12 +735,14 @@ export type UserCountOutputType = {
   sessions: number
   accounts: number
   walletaddresss: number
+  commitments: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   walletaddresss?: boolean | UserCountOutputTypeCountWalletaddresssArgs
+  commitments?: boolean | UserCountOutputTypeCountCommitmentsArgs
 }
 
 /**
@@ -673,6 +776,13 @@ export type UserCountOutputTypeCountWalletaddresssArgs<ExtArgs extends runtime.T
   where?: Prisma.WalletAddressWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCommitmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommitmentWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -685,6 +795,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   walletaddresss?: boolean | Prisma.User$walletaddresssArgs<ExtArgs>
+  commitments?: boolean | Prisma.User$commitmentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -723,6 +834,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   walletaddresss?: boolean | Prisma.User$walletaddresssArgs<ExtArgs>
+  commitments?: boolean | Prisma.User$commitmentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -734,6 +846,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
     walletaddresss: Prisma.$WalletAddressPayload<ExtArgs>[]
+    commitments: Prisma.$CommitmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1140,6 +1253,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   walletaddresss<T extends Prisma.User$walletaddresssArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$walletaddresssArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WalletAddressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  commitments<T extends Prisma.User$commitmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commitmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommitmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1638,6 +1752,30 @@ export type User$walletaddresssArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.WalletAddressScalarFieldEnum | Prisma.WalletAddressScalarFieldEnum[]
+}
+
+/**
+ * User.commitments
+ */
+export type User$commitmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Commitment
+   */
+  select?: Prisma.CommitmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Commitment
+   */
+  omit?: Prisma.CommitmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommitmentInclude<ExtArgs> | null
+  where?: Prisma.CommitmentWhereInput
+  orderBy?: Prisma.CommitmentOrderByWithRelationInput | Prisma.CommitmentOrderByWithRelationInput[]
+  cursor?: Prisma.CommitmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommitmentScalarFieldEnum | Prisma.CommitmentScalarFieldEnum[]
 }
 
 /**

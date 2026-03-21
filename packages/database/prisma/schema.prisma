@@ -25,6 +25,7 @@ model User {
   sessions       Session[]
   accounts       Account[]
   walletaddresss WalletAddress[]
+  commitments    Commitment[]
 
   @@unique([email])
   @@map("user")
@@ -89,4 +90,33 @@ model WalletAddress {
 
   @@index([userId])
   @@map("walletAddress")
+}
+
+model Commitment {
+  id          String    @id @default(cuid())
+  name        String
+  description String
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  completed   Boolean   @default(false)
+  paid        Boolean   @default(false)
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  payments    Payment[]
+
+  @@index([userId])
+  @@map("commitment")
+}
+
+model Payment {
+  id           String     @id @default(cuid())
+  amount       Float
+  commitmentId String
+  commitment   Commitment @relation(fields: [commitmentId], references: [id], onDelete: Cascade)
+  paidAt       DateTime   @default(now())
+
+  @@index([commitmentId])
+  @@map("payment")
 }

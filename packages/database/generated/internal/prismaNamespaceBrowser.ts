@@ -55,7 +55,9 @@ export const ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
-  WalletAddress: 'WalletAddress'
+  WalletAddress: 'WalletAddress',
+  Commitment: 'Commitment',
+  Payment: 'Payment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -142,6 +144,32 @@ export const WalletAddressScalarFieldEnum = {
 } as const
 
 export type WalletAddressScalarFieldEnum = (typeof WalletAddressScalarFieldEnum)[keyof typeof WalletAddressScalarFieldEnum]
+
+
+export const CommitmentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  userId: 'userId',
+  completed: 'completed',
+  paid: 'paid',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CommitmentScalarFieldEnum = (typeof CommitmentScalarFieldEnum)[keyof typeof CommitmentScalarFieldEnum]
+
+
+export const PaymentScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  commitmentId: 'commitmentId',
+  paidAt: 'paidAt'
+} as const
+
+export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
 
 
 export const SortOrder = {

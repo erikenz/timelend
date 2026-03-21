@@ -66,3 +66,13 @@ export type Verification = Prisma.VerificationModel
  * 
  */
 export type WalletAddress = Prisma.WalletAddressModel
+/**
+ * Model Commitment
+ * 
+ */
+export type Commitment = Prisma.CommitmentModel
+/**
+ * Model Payment
+ * 
+ */
+export type Payment = Prisma.PaymentModel
