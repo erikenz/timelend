@@ -1,3 +1,4 @@
+import { auditTask } from "@repo/ai/server-audit";
 import { createPublicClient, http } from "viem";
 import { avalanche, avalancheFuji } from "viem/chains";
 import { z } from "zod";
@@ -141,5 +142,139 @@ export const commitmentsRouter = createTRPCRouter({
 
   getSecretMessage: protectedProcedure.query(() => {
     return "you can now see this secret message!";
+  }),
+
+  submitProofAndAudit: protectedProcedure
+    .input(
+      z.object({
+        commitmentId: z.string(),
+        proofContent: z.string().min(1),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const commitment = await ctx.db.commitment.findUnique({
+        where: { id: input.commitmentId },
+      });
+
+      if (!commitment) {
+        throw new Error("Commitment not found");
+      }
+
+      if (commitment.userId !== ctx.session.user.id) {
+        throw new Error("Not authorized");
+      }
+
+      const auditResult = await auditTask({
+        commitmentId: input.commitmentId,
+        proofContent: input.proofContent,
+        taskDescription: commitment.description,
+      });
+
+      return ctx.db.commitment.update({
+        where: { id: input.commitmentId },
+        data: {
+          onChainProofURI: input.proofContent,
+          qualityScore: auditResult.qualityScore,
+          verificationNotes: auditResult.summary,
+          auditPassed: auditResult.passed,
+        },
+      });
+    }),
+
+  runAIAudit: protectedProcedure
+    .input(
+      z.object({
+        commitmentId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const commitment = await ctx.db.commitment.findUnique({
+        where: { id: input.commitmentId },
+      });
+
+      if (!commitment) {
+        throw new Error("Commitment not found");
+      }
+
+      if (!commitment.onChainProofURI) {
+        throw new Error("No proof submitted yet");
+      }
+
+      const auditResult = await auditTask({
+        commitmentId: input.commitmentId,
+        proofContent: commitment.onChainProofURI,
+        taskDescription: commitment.description,
+      });
+
+      return ctx.db.commitment.update({
+        where: { id: input.commitmentId },
+        data: {
+          qualityScore: auditResult.qualityScore,
+          verificationNotes: auditResult.summary,
+          auditPassed: auditResult.passed,
+        },
+      });
+    }),
+
+  getAuditHistory: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string().optional(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const whereClause = input.userId
+        ? { userId: input.userId, qualityScore: { not: null } }
+        : { qualityScore: { not: null } };
+
+      const commitments = await ctx.db.commitment.findMany({
+        where: whereClause,
+        select: {
+          id: true,
+          name: true,
+          qualityScore: true,
+          auditPassed: true,
+          createdAt: true,
+        },
+        orderBy: { createdAt: "desc" },
+        take: 50,
+      });
+
+      return commitments;
+    }),
+
+  getHealthScore: protectedProcedure.query(async ({ ctx }) => {
+    const commitments = await ctx.db.commitment.findMany({
+      where: {
+        userId: ctx.session.user.id,
+        qualityScore: { not: null },
+      },
+      select: {
+        qualityScore: true,
+        auditPassed: true,
+      },
+    });
+
+    if (commitments.length === 0) {
+      return {
+        score: 0,
+        totalAudits: 0,
+        passedAudits: 0,
+        averageQuality: 0,
+      };
+    }
+
+    const totalScore = commitments.reduce(
+      (sum, c) => sum + (c.qualityScore ?? 0),
+      0
+    );
+    const passedAudits = commitments.filter((c) => c.auditPassed).length;
+
+    return {
+      score: Math.round((totalScore / commitments.length) * 100) / 100,
+      totalAudits: commitments.length,
+      passedAudits,
+      averageQuality: Math.round((totalScore / commitments.length) * 100) / 100,
+    };
   }),
 });

@@ -20,13 +20,16 @@ async function main() {
     )
   );
 
+  const BURN_ADDRESS = "0x000000000000000000000000000000000000dEaD";
+
   const TimeLendMVP = await ethers.getContractFactory("TimeLendMVP");
-  const contract = await TimeLendMVP.connect(deployer).deploy();
+  const contract = await TimeLendMVP.connect(deployer).deploy(BURN_ADDRESS);
 
   await contract.waitForDeployment();
   const address = await contract.getAddress();
 
   console.log(`TimeLendMVP deployed to: ${address}`);
+  console.log(`Burn address set to: ${BURN_ADDRESS}`);
   console.log("Save this address for the frontend!");
 }
 

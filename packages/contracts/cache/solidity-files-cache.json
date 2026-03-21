@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/erikzen/Work/timelend/packages/contracts/src/TimeLendMVP.sol": {
-      "lastModificationDate": 1774114261387,
-      "contentHash": "1888c512b02eed733c100ada224d1926",
+      "lastModificationDate": 1774115498948,
+      "contentHash": "82bbf219c0ec9bc4c8570c5c35ec90b2",
       "sourceName": "src/TimeLendMVP.sol",
       "solcConfig": {
         "version": "0.8.24",

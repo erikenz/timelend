@@ -22,8 +22,6 @@ interface ContractWriteResult {
   isPending: boolean;
 }
 
-type ContractWriteAction = (commitmentId: bigint, ...args: string[]) => void;
-
 export function useCommitment(commitmentId: bigint) {
   const chainId = useChainId();
   const address =
@@ -72,6 +70,7 @@ export function useCreateCommitment(): ContractWriteResult & {
       args: [
         params.durationSeconds,
         params.verifier,
+        params.auditor,
         params.penaltyReceiver,
         params.taskURI,
       ],
@@ -93,7 +92,7 @@ export function useCreateCommitment(): ContractWriteResult & {
 }
 
 export function useSubmitProof(): ContractWriteResult & {
-  submitProof: ContractWriteAction;
+  submitProof: (commitmentId: bigint, proofURI: string) => void;
 } {
   const chainId = useChainId();
   const address =
@@ -115,6 +114,107 @@ export function useSubmitProof(): ContractWriteResult & {
 
   return {
     submitProof,
+    hash,
+    isPending,
+    isConfirming,
+    isConfirmed,
+    error,
+  };
+}
+
+export function useRequestVerification(): ContractWriteResult & {
+  requestVerification: (commitmentId: bigint) => void;
+} {
+  const chainId = useChainId();
+  const address =
+    TIME_LEND_ADDRESS[chainId] ?? TIME_LEND_ADDRESS[AVALANCHE_FUJI_CHAIN_ID];
+
+  const { data: hash, writeContract, isPending, error } = useWriteContract();
+
+  const requestVerification = (commitmentId: bigint) => {
+    writeContract({
+      address,
+      abi: TIME_LEND_ABI,
+      functionName: "requestVerification",
+      args: [commitmentId],
+    });
+  };
+
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({ hash });
+
+  return {
+    requestVerification,
+    hash,
+    isPending,
+    isConfirming,
+    isConfirmed,
+    error,
+  };
+}
+
+export function useVerifyWithAI(): ContractWriteResult & {
+  verifyWithAI: (
+    commitmentId: bigint,
+    qualityScore: number,
+    verificationNotes: string
+  ) => void;
+} {
+  const chainId = useChainId();
+  const address =
+    TIME_LEND_ADDRESS[chainId] ?? TIME_LEND_ADDRESS[AVALANCHE_FUJI_CHAIN_ID];
+
+  const { data: hash, writeContract, isPending, error } = useWriteContract();
+
+  const verifyWithAI = (
+    commitmentId: bigint,
+    qualityScore: number,
+    verificationNotes: string
+  ) => {
+    writeContract({
+      address,
+      abi: TIME_LEND_ABI,
+      functionName: "verifyWithAI",
+      args: [commitmentId, qualityScore, verificationNotes],
+    });
+  };
+
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({ hash });
+
+  return {
+    verifyWithAI,
+    hash,
+    isPending,
+    isConfirming,
+    isConfirmed,
+    error,
+  };
+}
+
+export function useConfirmSuccess(): ContractWriteResult & {
+  confirmSuccess: (commitmentId: bigint, minQualityScore: number) => void;
+} {
+  const chainId = useChainId();
+  const address =
+    TIME_LEND_ADDRESS[chainId] ?? TIME_LEND_ADDRESS[AVALANCHE_FUJI_CHAIN_ID];
+
+  const { data: hash, writeContract, isPending, error } = useWriteContract();
+
+  const confirmSuccess = (commitmentId: bigint, minQualityScore: number) => {
+    writeContract({
+      address,
+      abi: TIME_LEND_ABI,
+      functionName: "confirmSuccess",
+      args: [commitmentId, minQualityScore],
+    });
+  };
+
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({ hash });
+
+  return {
+    confirmSuccess,
     hash,
     isPending,
     isConfirming,

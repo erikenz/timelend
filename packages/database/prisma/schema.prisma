@@ -100,11 +100,17 @@ model Commitment {
   // On-chain link
   onChainCommitmentId     String?   // uint256 as string from contract
   onChainVerifier         String?   // address
+  onChainAuditor          String?   // address
   onChainPenaltyReceiver  String?   // address
   onChainStake            Float?    // stake amount in AVAX
   onChainTaskURI          String?   // task URI stored on-chain
   onChainProofURI         String?   // proof submitted on-chain
-  onChainStatus           Int?      // 0=Active, 1=Succeeded, 2=Failed, 3=ClaimedByUser, 4=ClaimedByPenalty
+  onChainStatus           Int?      // 0=Active, 1=PendingVerification, 2=Succeeded, 3=Failed, 4=ClaimedByUser, 5=ClaimedByPenalty
+
+  // AI verification
+  qualityScore            Float?    // AI quality score (0-100)
+  verificationNotes       String?   // AI verification notes
+  auditPassed             Boolean?  // Whether AI audit passed
 
   // Off-chain state
   completed               Boolean   @default(false)

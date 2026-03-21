@@ -4,6 +4,7 @@ pragma solidity ^0.8.24;
 contract TimeLendMVP {
     enum Status {
         Active,
+        PendingVerification,
         Succeeded,
         Failed,
         ClaimedByUser,
@@ -13,16 +14,21 @@ contract TimeLendMVP {
     struct Commitment {
         address user;
         address verifier;
+        address auditor;
         address penaltyReceiver;
         uint256 stake;
         uint64 createdAt;
         uint64 deadline;
         Status status;
+        uint8 qualityScore;
         string taskURI;
         string proofURI;
+        string verificationNotes;
     }
 
     uint256 public nextCommitmentId;
+    address public admin;
+    address public burnAddress;
     mapping(uint256 => Commitment) public commitments;
 
     error InvalidValue();
@@ -33,11 +39,14 @@ contract TimeLendMVP {
     error DeadlineReached();
     error NoProofSubmitted();
     error TransferFailed();
+    error InsufficientQualityScore();
+    error QualityScoreTooHigh();
 
     event CommitmentCreated(
         uint256 indexed commitmentId,
         address indexed user,
         address indexed verifier,
+        address auditor,
         address penaltyReceiver,
         uint256 stake,
         uint64 deadline,
@@ -47,6 +56,16 @@ contract TimeLendMVP {
     event ProofSubmitted(
         uint256 indexed commitmentId,
         string proofURI
+    );
+
+    event VerificationRequested(
+        uint256 indexed commitmentId
+    );
+
+    event CommitmentVerified(
+        uint256 indexed commitmentId,
+        uint8 qualityScore,
+        address indexed auditor
     );
 
     event CommitmentSucceeded(
@@ -71,6 +90,11 @@ contract TimeLendMVP {
         uint256 amount
     );
 
+    constructor(address _burnAddress) {
+        admin = msg.sender;
+        burnAddress = _burnAddress;
+    }
+
     modifier onlyUser(uint256 commitmentId) {
         if (msg.sender != commitments[commitmentId].user) revert NotAuthorized();
         _;
@@ -81,9 +105,15 @@ contract TimeLendMVP {
         _;
     }
 
+    modifier onlyAuditor() {
+        if (msg.sender != admin && msg.sender != commitments[nextCommitmentId - 1].auditor) revert NotAuthorized();
+        _;
+    }
+
     function createCommitment(
         uint64 durationSeconds,
         address verifier,
+        address auditor,
         address penaltyReceiver,
         string calldata taskURI
     ) external payable returns (uint256 commitmentId) {
@@ -97,19 +127,23 @@ contract TimeLendMVP {
         commitments[commitmentId] = Commitment({
             user: msg.sender,
             verifier: verifier,
+            auditor: auditor,
             penaltyReceiver: penaltyReceiver,
             stake: msg.value,
             createdAt: uint64(block.timestamp),
             deadline: uint64(block.timestamp + durationSeconds),
             status: Status.Active,
+            qualityScore: 0,
             taskURI: taskURI,
-            proofURI: ""
+            proofURI: "",
+            verificationNotes: ""
         });
 
         emit CommitmentCreated(
             commitmentId,
             msg.sender,
             verifier,
+            auditor,
             penaltyReceiver,
             msg.value,
             uint64(block.timestamp + durationSeconds),
@@ -131,7 +165,7 @@ contract TimeLendMVP {
         emit ProofSubmitted(commitmentId, proofURI);
     }
 
-    function verifySuccess(uint256 commitmentId)
+    function requestVerification(uint256 commitmentId)
         external
         onlyVerifier(commitmentId)
     {
@@ -141,6 +175,54 @@ contract TimeLendMVP {
         if (block.timestamp > c.deadline) revert DeadlineReached();
         if (bytes(c.proofURI).length == 0) revert NoProofSubmitted();
 
+        c.status = Status.PendingVerification;
+
+        emit VerificationRequested(commitmentId);
+    }
+
+    function verifyWithAI(
+        uint256 commitmentId,
+        uint8 qualityScore,
+        string calldata verificationNotes
+    ) external onlyAuditor {
+        Commitment storage c = commitments[commitmentId];
+
+        if (c.status != Status.PendingVerification) revert InvalidStatus();
+        if (qualityScore > 100) revert QualityScoreTooHigh();
+
+        c.qualityScore = qualityScore;
+        c.verificationNotes = verificationNotes;
+
+        emit CommitmentVerified(commitmentId, qualityScore, msg.sender);
+    }
+
+    function confirmSuccess(uint256 commitmentId, uint8 minQualityScore)
+        external
+        onlyVerifier(commitmentId)
+    {
+        Commitment storage c = commitments[commitmentId];
+
+        if (c.status != Status.PendingVerification && c.status != Status.Active) revert InvalidStatus();
+        
+        if (c.qualityScore < minQualityScore) {
+            c.status = Status.Failed;
+            emit CommitmentFailed(commitmentId, msg.sender);
+        } else {
+            c.status = Status.Succeeded;
+            emit CommitmentSucceeded(commitmentId, msg.sender);
+        }
+    }
+
+    function verifySuccess(uint256 commitmentId)
+        external
+        onlyVerifier(commitmentId)
+    {
+        Commitment storage c = commitments[commitmentId];
+
+        if (c.status != Status.Active && c.status != Status.PendingVerification) revert InvalidStatus();
+        if (block.timestamp > c.deadline && c.status == Status.Active) revert DeadlineReached();
+        if (bytes(c.proofURI).length == 0 && c.status == Status.Active) revert NoProofSubmitted();
+
         c.status = Status.Succeeded;
 
         emit CommitmentSucceeded(commitmentId, msg.sender);
@@ -149,7 +231,7 @@ contract TimeLendMVP {
     function markFailed(uint256 commitmentId) external {
         Commitment storage c = commitments[commitmentId];
 
-        if (c.status != Status.Active) revert InvalidStatus();
+        if (c.status != Status.Active && c.status != Status.PendingVerification) revert InvalidStatus();
 
         bool verifierCallingBeforeDeadline =
             msg.sender == c.verifier && block.timestamp <= c.deadline;
@@ -187,7 +269,7 @@ contract TimeLendMVP {
     function claimPenalty(uint256 commitmentId) external {
         Commitment storage c = commitments[commitmentId];
 
-        if (msg.sender != c.penaltyReceiver) revert NotAuthorized();
+        if (msg.sender != c.penaltyReceiver && msg.sender != burnAddress) revert NotAuthorized();
         if (c.status != Status.Failed) revert InvalidStatus();
 
         uint256 amount = c.stake;
@@ -206,5 +288,10 @@ contract TimeLendMVP {
         returns (Commitment memory)
     {
         return commitments[commitmentId];
+    }
+
+    function setBurnAddress(address _burnAddress) external {
+        if (msg.sender != admin) revert NotAuthorized();
+        burnAddress = _burnAddress;
     }
 }
