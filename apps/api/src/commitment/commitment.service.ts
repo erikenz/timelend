@@ -1,13 +1,16 @@
 import { Injectable } from "@nestjs/common";
-import { database } from "@repo/database";
+import { database, type PrismaClient } from "@repo/database";
 import type { CreateCommitmentDto } from "./dto/create-commitment.dto";
 import type { UpdateCommitmentDto } from "./dto/update-commitment.dto";
 
 @Injectable()
 export class CommitmentService {
-	create(createCommitmentDto: CreateCommitmentDto) {
-		database.commitment.create(createCommitmentDto);
-		return "This action adds a new commitment";
+	constructor(private prisma: PrismaClient) {}
+	async create(createCommitmentDto: CreateCommitmentDto) {
+		const created = await database.commitment.create({
+			data: createCommitmentDto,
+		});
+		return created;
 	}
 
 	findAll() {
