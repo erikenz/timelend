@@ -5,7 +5,10 @@ export const keys = () =>
   createEnv({
     server: {
       BETTER_AUTH_URL: z.url().optional(),
-      BETTER_AUTH_SECRET: z.string().optional(),
+      BETTER_AUTH_SECRET:
+        process.env.NODE_ENV === "production"
+          ? z.string()
+          : z.string().optional(),
     },
     client: {},
     runtimeEnv: {

@@ -1,7 +1,8 @@
-import { Providers } from "@/components/providers";
-import "./styles.css";
+import { DesignSystemProvider } from "@repo/design-system";
 import { fonts } from "@repo/design-system/lib/fonts";
 import type { ReactNode } from "react";
+import { TRPCReactProvider } from "@/trpc/react";
+import "./styles.css";
 
 interface RootLayoutProperties {
   readonly children: ReactNode;
@@ -10,7 +11,9 @@ interface RootLayoutProperties {
 const RootLayout = ({ children }: RootLayoutProperties) => (
   <html className={fonts} lang="en" suppressHydrationWarning>
     <body>
-      <Providers>{children}</Providers>
+      <DesignSystemProvider>
+        <TRPCReactProvider>{children}</TRPCReactProvider>
+      </DesignSystemProvider>
     </body>
   </html>
 );

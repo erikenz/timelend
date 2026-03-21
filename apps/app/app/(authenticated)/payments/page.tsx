@@ -1,5 +1,5 @@
 import { database } from "@repo/database";
-import { Header } from "../components/header";
+import { Header } from "../_components/header";
 
 const PaymentsPage = async () => {
   const payments = await database.payment.findMany({
