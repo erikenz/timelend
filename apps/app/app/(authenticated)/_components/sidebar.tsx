@@ -57,13 +57,41 @@ interface GlobalSidebarProperties {
   readonly children: ReactNode;
 }
 
-const data = {
+interface NavigationItem {
+  icon?: React.ElementType;
+  isActive?: boolean;
+  items?: NavigationItem[];
+  title: string;
+  url: string;
+}
+
+interface SidebarData {
+  navMain: NavigationItem[];
+  navSecondary: NavigationItem[];
+  projects: {
+    name: string;
+    url: string;
+    icon: React.ComponentType;
+  }[];
+  user: {
+    name: string;
+    email: string;
+    avatar: string;
+  };
+}
+
+const data: SidebarData = {
   user: {
     name: "shadcn",
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
+    {
+      title: "Chatbot",
+      url: "/chatbot",
+      icon: BotIcon,
+    },
     {
       title: "Commitments",
       url: "/commitments",
@@ -235,7 +263,7 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild tooltip={item.title}>
                       <Link href={item.url}>
-                        <item.icon />
+                        {item.icon && <item.icon />}
                         <span>{item.title}</span>
                       </Link>
                     </SidebarMenuButton>
@@ -322,7 +350,7 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                       <Link href={item.url}>
-                        <item.icon />
+                        {item.icon && <item.icon />}
                         <span>{item.title}</span>
                       </Link>
                     </SidebarMenuButton>
@@ -345,6 +373,7 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
                 }}
                 showName
               />*/}
+              {/*<UserAvatar user={user} />*/}
               <div className="flex shrink-0 items-center gap-px">
                 <ModeToggle />
               </div>

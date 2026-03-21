@@ -117,6 +117,9 @@ importers:
       '@daveyplate/better-auth-ui':
         specifier: ^3.3.15
         version: 3.3.15(5e06d3d3117e146797b49fb55a44c5d4)
+      '@repo/ai':
+        specifier: workspace:*
+        version: link:../../packages/ai
       '@repo/auth':
         specifier: workspace:*
         version: link:../../packages/auth
