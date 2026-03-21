@@ -1,5 +1,5 @@
 {
-  "name": "my-turborepo",
+  "name": "timelend",
   "version": "0.0.0",
   "private": true,
   "description": "",
@@ -11,16 +11,28 @@
     "test": "turbo run test",
     "test:e2e": "turbo run test:e2e",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "clean": "git clean -xdf node_modules",
+    "postinstall": "pnpm run skills:install",
+    "skills:install": "pnpm dlx skills experimental_install",
+    "migrate": "cd packages/database && pnpm dlx prisma format && pnpm dlx prisma generate && pnpm dlx prisma migrate dev",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check": "ultracite check",
+    "fix": "ultracite fix"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
+    "@biomejs/biome": "2.4.7",
     "@repo/typescript-config": "workspace:*",
-    "prettier": "^3.2.5",
-    "turbo": "^2.8.20"
+    "lint-staged": "^16.4.0",
+    "turbo": "^2.8.20",
+    "ultracite": "7.3.2"
   },
-  "packageManager": "pnpm@8.15.5",
+  "packageManager": "pnpm@10.32.0",
   "engines": {
     "node": ">=18"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
+      "pnpm dlx ultracite fix"
+    ]
   }
 }
