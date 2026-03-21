@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated"
+}
+
+datasource db {
+  provider     = "postgresql"
+  relationMode = "prisma"
+}
+
+// This is a stub model.
+// Delete it and add your own Prisma models.
+model User {
+  id          Int          @id @default(autoincrement())
+  name        String
+  email       String       @unique
+  password    String
+  commitments Commitment[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Commitment {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  completed   Boolean   @default(false)
+  paid        Boolean   @default(false)
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  payments    Payment[]
+}
+
+model Payment {
+  id           Int        @id @default(autoincrement())
+  amount       Float
+  commitmentId Int
+  commitment   Commitment @relation(fields: [commitmentId], references: [id])
+  paidAt       DateTime   @default(now())
+}

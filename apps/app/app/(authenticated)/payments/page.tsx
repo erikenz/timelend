@@ -1,20 +1,18 @@
 import { auth } from "@repo/auth/server";
 import { database } from "@repo/database";
-import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { Header } from "@/app/(authenticated)/components/header";
+import { Header } from "../components/header";
 
-const title = "Acme Inc";
-const description = "My application.";
+const PaymentsPage = async () => {
+  const payments = await database.payment.findMany({
+    where: {
+      paidAt: {
+        equals: "true",
+      },
+    },
+  });
 
-export const metadata: Metadata = {
-  title,
-  description,
-};
-
-const App = async () => {
-  const commitments = await database.commitment.findMany();
   const session = await auth.api.getSession({
     headers: await headers(), // from next/headers
   });
@@ -24,15 +22,15 @@ const App = async () => {
 
   return (
     <>
-      <Header page="Data Fetching" pages={["Building Your Application"]} />
+      <Header page="Search" pages={["Building Your Application"]} />
       <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
         <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-          {commitments.map((commitments) => (
+          {payments.map((payment) => (
             <div
               className="aspect-video rounded-xl bg-muted/50"
-              key={commitments.id}
+              key={payment.id}
             >
-              {commitments.name}
+              {payment.amount}
             </div>
           ))}
         </div>
@@ -42,4 +40,4 @@ const App = async () => {
   );
 };
 
-export default App;
+export default PaymentsPage;
