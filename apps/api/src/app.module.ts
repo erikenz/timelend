@@ -1,14 +1,12 @@
-import { Module } from '@nestjs/common';
-
-import { LinksModule } from './links/links.module';
-
-import { AppService } from './app.service';
-import { AppController } from './app.controller';
-import { UsersModule } from './users/users.module';
+import { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { UsersModule } from "./users/users.module";
+import { CommitmentModule } from './commitment/commitment.module';
 
 @Module({
-  imports: [LinksModule, UsersModule],
-  controllers: [AppController],
-  providers: [AppService],
+	imports: [UsersModule, CommitmentModule],
+	controllers: [AppController],
+	providers: [AppService],
 })
 export class AppModule {}
