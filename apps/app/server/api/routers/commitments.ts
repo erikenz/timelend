@@ -1,7 +1,8 @@
 import { auditTask } from "@repo/ai/server-audit";
 import { createPublicClient, http } from "viem";
-import { avalanche, avalancheFuji } from "viem/chains";
+import { avalancheFuji } from "viem/chains";
 import { z } from "zod";
+import { env } from "@/env";
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -10,12 +11,11 @@ import {
 
 const publicClientFuji = createPublicClient({
   chain: avalancheFuji,
-  transport: http(),
-});
-
-const publicClientMainnet = createPublicClient({
-  chain: avalanche,
-  transport: http(),
+  transport: http(
+    env.AVALANCHE_FUJI_RPC_URL ??
+      env.NEXT_PUBLIC_AVALANCHE_FUJI_RPC_URL ??
+      "https://api.avax-test.network/ext/bc/C/rpc"
+  ),
 });
 
 export const commitmentsRouter = createTRPCRouter({
@@ -73,6 +73,34 @@ export const commitmentsRouter = createTRPCRouter({
       });
     }),
 
+  // Delete (remove) commitment — only the owner may delete their commitment.
+  delete: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Ensure the commitment exists and belongs to the current user
+      const commitment = await ctx.db.commitment.findUnique({
+        where: { id: input.id },
+      });
+
+      if (!commitment) {
+        throw new Error("Commitment not found");
+      }
+
+      if (commitment.userId !== ctx.session.user.id) {
+        throw new Error("Not authorized");
+      }
+
+      await ctx.db.commitment.delete({
+        where: { id: input.id },
+      });
+
+      return { success: true };
+    }),
+
   syncWithContract: protectedProcedure
     .input(
       z.object({
@@ -97,8 +125,7 @@ export const commitmentsRouter = createTRPCRouter({
       })
     )
     .query(async ({ input }) => {
-      const client =
-        input.chainId === 43_114 ? publicClientMainnet : publicClientFuji;
+      const client = publicClientFuji;
       const commitment = await client.readContract({
         address: "0x0000000000000000000000000000000000000000",
         abi: [

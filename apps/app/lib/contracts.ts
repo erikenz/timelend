@@ -5,11 +5,9 @@ export const TIME_LEND_ABI = TimeLendMVPArtifact.abi as Abi;
 
 export const TIME_LEND_ADDRESS: Record<number, Address> = {
   43113: "0xBb37498C6C5EE5BCBC11b6E9D1d4473Ba77a277E",
-  43114: "0x0000000000000000000000000000000000000000",
 };
 
 export const AVALANCHE_FUJI_CHAIN_ID = 43_113 as const;
-export const AVALANCHE_MAINNET_CHAIN_ID = 43_114 as const;
 
 export type CommitmentStatus = 0 | 1 | 2 | 3 | 4 | 5;
 

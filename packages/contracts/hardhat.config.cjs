@@ -30,13 +30,6 @@ const config = {
       chainId: 43_113,
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
     },
-    avalanche: {
-      url:
-        process.env.AVALANCHE_MAINNET_RPC_URL ||
-        "https://api.avax.network/ext/bc/C/rpc",
-      chainId: 43_114,
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-    },
   },
 };
 
