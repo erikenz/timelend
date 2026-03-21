@@ -3,21 +3,31 @@
   "version": "0.0.0",
   "private": true,
   "description": "",
-  "author": "",
   "license": "UNLICENSED",
+  "author": "",
   "scripts": {
-    "dev": "turbo run dev",
     "build": "turbo run build",
-    "test": "turbo run test",
-    "test:e2e": "turbo run test:e2e",
-    "lint": "turbo run lint",
-    "clean": "git clean -xdf node_modules",
-    "postinstall": "pnpm run skills:install",
-    "skills:install": "pnpm dlx skills experimental_install",
-    "migrate": "cd packages/database && pnpm dlx prisma format && pnpm dlx prisma generate && pnpm dlx prisma migrate dev",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "bump-deps": "pnpm dlx npm-check-updates -w --format group -i -u",
+    "bump-ui": "pnpp dlx shadcn@latest add --all --overwrite -c packages/design-system",
     "check": "ultracite check",
-    "fix": "ultracite fix"
+    "clean": "git clean -xdf node_modules",
+    "dev": "turbo run dev",
+    "dev:test": "turbo run dev --filter=app --filter=@repo/database",
+    "fix": "ultracite fix",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format:json": "pnpm dlx sort-package-json package.json packages/*/package.json apps/*/package.json",
+    "preinstall": "pnpm dlx only-allow pnpm",
+    "postinstall": "pnpm run format:json && pnpm run skills:install",
+    "lint": "turbo run lint",
+    "migrate": "cd packages/database && pnpm dlx prisma format && pnpm dlx prisma generate && pnpm dlx prisma migrate dev",
+    "skills:install": "pnpm dlx skills experimental_install",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
+      "pnpm dlx ultracite fix"
+    ]
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.7",
@@ -26,13 +36,8 @@
     "turbo": "^2.8.20",
     "ultracite": "7.3.2"
   },
-  "packageManager": "pnpm@10.32.0",
+  "packageManager": "pnpm@10.32.1",
   "engines": {
     "node": ">=18"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
-      "pnpm dlx ultracite fix"
-    ]
   }
 }

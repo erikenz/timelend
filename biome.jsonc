@@ -6,5 +6,20 @@
     "ultracite/biome/next",
     "ultracite/biome/nestjs",
     "ultracite/biome/jest"
-  ]
+  ],
+  "linter": {
+    "rules": {
+      "performance": {
+        "noBarrelFile": "off"
+      }
+    }
+  },
+  "files": {
+    "includes": [
+      "**/*",
+      "!packages/design-system/components/ui",
+      "!packages/design-system/lib",
+      "!packages/design-system/hooks"
+    ]
+  }
 }

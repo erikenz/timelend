@@ -1,3 +1,98 @@
+# Frontend Tasks - TimeLend (Actualizado)
+
+Fecha: 2026-03-21
+
+## ✅ Tareas completadas en esta iteración
+
+### P0 - Entorno y configuración
+- [x] Corregido script de desarrollo en `apps/web/package.json` (`dev.` → `dev`).
+- [x] Corregido script de lint para Next 16 (se reemplazó por `pnpm dlx ultracite check`).
+- [x] Agregado `turbopack.root` en `apps/web/next.config.js`.
+- [x] Instaladas dependencias del workspace para que `apps/web` resuelva tipos correctamente.
+
+### P0/P1 - Navegación y Home
+- [x] Navbar con estado activo por ruta (`Home`, `Create`, `Dashboard`).
+- [x] Navbar responsive con menú móvil real.
+- [x] Accesibilidad del menú móvil: `aria-expanded`, `aria-controls`, cierre con `Esc`, foco inicial al abrir.
+- [x] Botón de wallet sin `console.log` y con estados visuales (`Conectar`, `Conectando...`, `Conectado`).
+- [x] CTA principal de Home conectado a flujo real (`/create`).
+- [x] Secciones informativas mínimas agregadas en Home.
+
+### P0 - Crear compromiso funcional
+- [x] Validación robusta en `CreateForm`:
+  - [x] `description` mínimo 10 caracteres.
+  - [x] `amount` > 0.
+  - [x] `deadline` con formato válido y fecha hoy/futura.
+- [x] Mensajes de error por campo con `aria-live`.
+- [x] Estado de envío (`Creando...`, botón deshabilitado).
+- [x] Integración con API real local (`POST /api/commitments`).
+- [x] Reset del formulario solo en éxito.
+- [x] Redirección a `/dashboard` tras creación exitosa.
+
+### P0 - Dashboard funcional
+- [x] Reemplazados datos hardcodeados por fetch real (`GET /api/commitments`).
+- [x] Estados de datos implementados: `loading` (skeleton), `error`, `empty`.
+- [x] Filtros y orden implementados (estado y fecha límite).
+- [x] Formato de fechas y montos por locale (`es-ES`).
+
+### SEO base
+- [x] Metadata base mejorada en `layout.tsx` (title template + Open Graph básico).
+- [x] Metadata por página en `app/page.tsx`, `app/create/page.tsx`, `app/dashboard/page.tsx`.
+
+---
+
+## ⚠️ Hallazgos técnicos actuales
+
+- [ ] El check completo de Ultracite en `apps/web` aún falla por reglas preexistentes de convención de nombres de archivos (`PascalCase` en `components/*`) y algunos archivos legacy no tocados en esta iteración.
+- [x] `pnpm --filter web check-types` pasa en verde.
+
+---
+
+## 🚀 Nuevo backlog propuesto (qué agregar)
+
+## 1) Persistencia real y modelo de datos
+- [ ] Sustituir almacenamiento en memoria de `app/api/commitments/route.ts` por persistencia real (DB o API del backend `apps/api`).
+- [ ] Añadir endpoint `PATCH /api/commitments/:id` para acciones por tarjeta (`completed`, edición).
+- [ ] Añadir endpoint `GET /api/commitments/:id` para vista de detalle.
+
+## 2) Integración Web3 completa
+- [ ] Implementar conexión real de wallet con `wagmi` + conector (injected, WalletConnect).
+- [ ] Proteger rutas `/create` y `/dashboard` por estado de wallet/conexión.
+- [ ] Integrar `useWriteContract` en creación y mapear estado de transacción (`pendiente`, `éxito`, `error`).
+- [ ] Convertir `amount` a Wei (`BigInt`) con utilidades de `viem`.
+
+## 3) Dashboard avanzado
+- [ ] Agregar acciones por tarjeta: ver detalle, editar, marcar completado.
+- [ ] Agregar paginación o carga incremental.
+- [ ] Agregar buscador por descripción.
+
+## 4) UX y accesibilidad
+- [ ] Añadir notificaciones toast para éxito/error global (ej. `sonner`).
+- [ ] Mejorar contraste de badges para WCAG AA.
+- [ ] Añadir `aria-live` global para resultados de creación y refresh de dashboard.
+- [ ] Mejorar estados `hover/focus/disabled/loading` de todos los controles restantes.
+
+## 5) Calidad y testing
+- [ ] Tests unitarios de `CreateForm` (validación + submit).
+- [ ] Tests de `Navbar` (estado activo, menú móvil, cierre con `Esc`).
+- [ ] Tests de `DashboardClient` (loading/error/empty/data + filtros/orden).
+- [ ] E2E happy path: Home → Create → Submit → Dashboard.
+- [ ] Definir estrategia para cumplir regla de naming (`kebab-case`) sin romper imports ni convenciones actuales.
+
+---
+
+## 🎯 Definición de listo (siguiente release)
+
+- [ ] Persistencia real de compromisos (no memoria local).
+- [ ] Wallet real conectada y flujo protegido.
+- [ ] Dashboard con acciones completas sobre compromisos.
+- [ ] Cobertura mínima de tests del flujo crítico.
+- [ ] `check-types` y `lint` del paquete `web` en verde (incluyendo resolución del naming convention).
+
+---
+
+## Histórico (plan original)
+
 # Frontend Tasks - TimeLend
 
 Checklist de trabajo para pasar de la maqueta actual a una versión **completamente funcional** del frontend, basado en los archivos editados:

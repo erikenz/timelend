@@ -1,5 +1,5 @@
-import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import type { Metadata } from "next";
+import localFont from "next/font/local";
 import { Navbar } from "../components/Navbar";
 import './globals.css';
 import { Providers } from './providers';
@@ -9,17 +9,25 @@ import { config } from '../lib/wagmi'
 
 
 const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
 });
 const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
 });
 
 export const metadata: Metadata = {
-  title: 'TimeLend',
-  description: 'AI-powered comitment platform',
+  title: {
+    default: "TimeLend",
+    template: "%s | TimeLend",
+  },
+  description: "Plataforma de compromisos financieros con soporte Web3.",
+  openGraph: {
+    title: "TimeLend",
+    description: "Plataforma de compromisos financieros con soporte Web3.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -38,4 +46,3 @@ export default function RootLayout({
     </html>
   );
 }
-

@@ -13,22 +13,91 @@ datasource db {
 
 // This is a stub model.
 // Delete it and add your own Prisma models.
+
 model User {
-  id          Int          @id @default(autoincrement())
-  name        String
-  email       String       @unique
-  password    String
-  commitments Commitment[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id             String          @id
+  name           String
+  email          String
+  emailVerified  Boolean         @default(false)
+  image          String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  sessions       Session[]
+  accounts       Account[]
+  walletaddresss WalletAddress[]
+  commitments    Commitment[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+model WalletAddress {
+  id        String   @id
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  address   String
+  chainId   Int
+  isPrimary Boolean? @default(false)
+  createdAt DateTime
+
+  @@index([userId])
+  @@map("walletAddress")
 }
 
 model Commitment {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(cuid())
   name        String
   description String
-  userId      Int
-  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   completed   Boolean   @default(false)
   paid        Boolean   @default(false)
   startDate   DateTime
@@ -36,12 +105,18 @@ model Commitment {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   payments    Payment[]
+
+  @@index([userId])
+  @@map("commitment")
 }
 
 model Payment {
-  id           Int        @id @default(autoincrement())
+  id           String     @id @default(cuid())
   amount       Float
-  commitmentId Int
-  commitment   Commitment @relation(fields: [commitmentId], references: [id])
+  commitmentId String
+  commitment   Commitment @relation(fields: [commitmentId], references: [id], onDelete: Cascade)
   paidAt       DateTime   @default(now())
+
+  @@index([commitmentId])
+  @@map("payment")
 }

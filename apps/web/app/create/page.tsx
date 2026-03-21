@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { CreateForm } from "../../components/CreateForm";
 import styles from "../page.module.css";
+
+export const metadata: Metadata = {
+  title: "Crear compromiso",
+  description: "Registra un nuevo compromiso con monto y fecha límite.",
+};
 
 export default function CreatePage() {
   return (
