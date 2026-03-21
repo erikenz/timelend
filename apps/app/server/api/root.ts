@@ -7,17 +7,18 @@ import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  post: commitmentsRouter,
+  commitments: commitmentsRouter,
 });
 
-// export type definition of API
+/**
+ * This type is used to create the frontend client and infer the API response types.
+ */
 export type AppRouter = typeof appRouter;
 
 /**
  * Create a server-side caller for the tRPC API.
  * @example
  * const trpc = createCaller(createContext);
- * const res = await trpc.post.all();
- *       ^? Post[]
+ * const res = await trpc.commitments.all();
  */
 export const createCaller = createCallerFactory(appRouter);

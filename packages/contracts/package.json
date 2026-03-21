@@ -14,9 +14,11 @@
     "src/out"
   ],
   "scripts": {
-    "build": "cd src && forge build",
+    "build": "node scripts/deploy.js -- build",
     "clean": "git clean -xdf src/out src/cache .turbo node_modules",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
+    "deploy": "node scripts/deploy.js script script/Deploy.s.sol:DeployScript",
+    "deploy:fuji": "node scripts/deploy.js script script/Deploy.s.sol:DeployScript --rpc-url https://api.avax-test.network/ext/bc/C/rpc --broadcast"
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.13.10",

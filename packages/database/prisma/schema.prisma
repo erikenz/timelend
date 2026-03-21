@@ -11,9 +11,6 @@ datasource db {
   relationMode = "prisma"
 }
 
-// This is a stub model.
-// Delete it and add your own Prisma models.
-
 model User {
   id             String          @id
   name           String
@@ -24,7 +21,7 @@ model User {
   updatedAt      DateTime        @updatedAt
   sessions       Session[]
   accounts       Account[]
-  walletaddresss WalletAddress[]
+  walletAddresses WalletAddress[]
   commitments    Commitment[]
 
   @@unique([email])
@@ -89,24 +86,37 @@ model WalletAddress {
   createdAt DateTime
 
   @@index([userId])
+  @@index([address])
   @@map("walletAddress")
 }
 
 model Commitment {
-  id          String    @id @default(cuid())
-  name        String
-  description String
-  userId      String
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  completed   Boolean   @default(false)
-  paid        Boolean   @default(false)
-  startDate   DateTime
-  endDate     DateTime
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  payments    Payment[]
+  id                      String    @id @default(cuid())
+  name                    String
+  description             String
+  userId                  String
+  user                    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // On-chain link
+  onChainCommitmentId     String?   // uint256 as string from contract
+  onChainVerifier         String?   // address
+  onChainPenaltyReceiver  String?   // address
+  onChainStake            Float?    // stake amount in AVAX
+  onChainTaskURI          String?   // task URI stored on-chain
+  onChainProofURI         String?   // proof submitted on-chain
+  onChainStatus           Int?      // 0=Active, 1=Succeeded, 2=Failed, 3=ClaimedByUser, 4=ClaimedByPenalty
+
+  // Off-chain state
+  completed               Boolean   @default(false)
+  paid                    Boolean   @default(false)
+  startDate               DateTime
+  endDate                 DateTime
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  payments                Payment[]
 
   @@index([userId])
+  @@index([onChainCommitmentId])
   @@map("commitment")
 }
 

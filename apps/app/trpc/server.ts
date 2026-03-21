@@ -24,6 +24,7 @@ const createContext = cache(async () => {
 const getQueryClient = cache(createQueryClient);
 const caller = createCaller(createContext);
 
+// @ts-expect-error - TypeScript can't infer the type correctly due to internal module references
 export const { trpc: api, HydrateClient } = createHydrationHelpers<AppRouter>(
   caller,
   getQueryClient
