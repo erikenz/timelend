@@ -1,12 +1,15 @@
-"use client";
+import type { Metadata } from "next";
+import Link from "next/link";
 
 import styles from "./page.module.css";
 
-export default function Home() {
-  const handleConnectWallet = () => {
-    console.log("Connect Wallet clicked from Home");
-  };
+export const metadata: Metadata = {
+  title: "Inicio",
+  description:
+    "Gestiona compromisos de préstamo con una experiencia clara, rápida y accesible.",
+};
 
+export default function Home() {
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
@@ -15,14 +18,34 @@ export default function Home() {
           Gestiona compromisos de préstamo con una interfaz simple y rápida.
         </p>
         <div className={styles.section}>
-          <button
-            className={styles.buttonPrimary}
-            onClick={handleConnectWallet}
-            type="button"
-          >
-            Connect Wallet
-          </button>
+          <Link className={styles.buttonPrimary} href="/create">
+            Crear compromiso
+          </Link>
+          <Link className={styles.buttonSecondary} href="/dashboard">
+            Ver dashboard
+          </Link>
         </div>
+      </section>
+
+      <section aria-labelledby="how-it-works" className={styles.infoSection}>
+        <h2 className={styles.sectionTitle} id="how-it-works">
+          Cómo funciona
+        </h2>
+        <ul className={styles.infoList}>
+          <li>Define tu compromiso con monto y fecha límite.</li>
+          <li>Sigue el estado desde tu dashboard en tiempo real.</li>
+          <li>Organiza tus pagos con una vista clara y accionable.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="benefits" className={styles.infoSection}>
+        <h2 className={styles.sectionTitle} id="benefits">
+          Beneficios
+        </h2>
+        <p className={styles.description}>
+          Diseñado para flujos rápidos, con foco en accesibilidad, feedback de
+          estados y una base lista para integración con wallet y contratos.
+        </p>
       </section>
     </div>
   );

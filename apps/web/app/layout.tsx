@@ -14,8 +14,16 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "TimeLend",
-  description: "AI-powered comitment platform",
+  title: {
+    default: "TimeLend",
+    template: "%s | TimeLend",
+  },
+  description: "Plataforma de compromisos financieros con soporte Web3.",
+  openGraph: {
+    title: "TimeLend",
+    description: "Plataforma de compromisos financieros con soporte Web3.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
