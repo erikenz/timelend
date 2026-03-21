@@ -1,13 +1,7 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+'use client';
 
-import styles from "./page.module.css";
-
-export const metadata: Metadata = {
-  title: "Inicio",
-  description:
-    "Gestiona compromisos de préstamo con una experiencia clara, rápida y accesible.",
-};
+import styles from './page.module.css';
+import WalletConnect from '../components/WalletConnect';
 
 export default function Home() {
   return (
@@ -18,12 +12,7 @@ export default function Home() {
           Gestiona compromisos de préstamo con una interfaz simple y rápida.
         </p>
         <div className={styles.section}>
-          <Link className={styles.buttonPrimary} href="/create">
-            Crear compromiso
-          </Link>
-          <Link className={styles.buttonSecondary} href="/dashboard">
-            Ver dashboard
-          </Link>
+          <WalletConnect />
         </div>
       </section>
 

@@ -1,7 +1,6 @@
-import { createConfig, http } from "wagmi";
-import { avalancheFuji } from "wagmi/chains";
-import { injected } from "wagmi/connectors";
-import { env } from "../env";
+import { createConfig, http } from 'wagmi';
+import { avalancheFuji } from 'wagmi/chains';
+import { injected } from 'wagmi/connectors';
 
 export const config = createConfig({
   chains: [avalancheFuji],
