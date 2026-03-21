@@ -19,9 +19,7 @@
       "**/*",
       "!packages/design-system/components/ui",
       "!packages/design-system/lib",
-      "!packages/design-system/hooks",
-      "!packages/database/generated",
-      "!packages/database/prisma/migrations"
+      "!packages/design-system/hooks"
     ]
   }
 }

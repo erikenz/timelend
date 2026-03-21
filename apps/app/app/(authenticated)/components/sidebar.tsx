@@ -1,8 +1,6 @@
 "use client";
 
-import { OrganizationSwitcher, UserButton } from "@repo/auth/client";
 import { ModeToggle } from "@repo/design-system/components/mode-toggle";
-import { Button } from "@repo/design-system/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
@@ -34,7 +32,6 @@ import {
   useSidebar,
 } from "@repo/design-system/components/ui/sidebar";
 import { cn } from "@repo/design-system/lib/utils";
-import { NotificationsTrigger } from "@repo/notifications/components/trigger";
 import {
   AnchorIcon,
   BookOpenIcon,
@@ -200,14 +197,11 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
             <SidebarMenuItem>
               <div
                 className={cn(
-                  "h-[36px] overflow-hidden transition-all [&>div]:w-full",
+                  "h-9 overflow-hidden transition-all [&>div]:w-full",
                   sidebar.open ? "" : "-mx-1"
                 )}
               >
-                <OrganizationSwitcher
-                  afterSelectOrganizationUrl="/"
-                  hidePersonal
-                />
+                Header
               </div>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -326,7 +320,7 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuItem className="flex items-center gap-2">
-              <UserButton
+              {/*<UserButton
                 appearance={{
                   elements: {
                     rootBox: "flex overflow-hidden w-full",
@@ -335,19 +329,9 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
                   },
                 }}
                 showName
-              />
+              />*/}
               <div className="flex shrink-0 items-center gap-px">
                 <ModeToggle />
-                <Button
-                  asChild
-                  className="shrink-0"
-                  size="icon"
-                  variant="ghost"
-                >
-                  <div className="h-4 w-4">
-                    <NotificationsTrigger />
-                  </div>
-                </Button>
               </div>
             </SidebarMenuItem>
           </SidebarMenu>

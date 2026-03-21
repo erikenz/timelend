@@ -12,7 +12,7 @@
     "check": "ultracite check",
     "clean": "git clean -xdf node_modules",
     "dev": "turbo run dev",
-    "dev:test": "turbo run dev --filter=apps/app --filter=packages/database",
+    "dev:test": "turbo run dev --filter=app --filter=@repo/database",
     "fix": "ultracite fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "format:json": "pnpm dlx sort-package-json package.json packages/*/package.json apps/*/package.json",

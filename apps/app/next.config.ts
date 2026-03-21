@@ -1,7 +1,8 @@
 import withBundleAnalyzer from "@next/bundle-analyzer";
 import type { NextConfig } from "next";
+import { env } from "@/env";
 
-export const config: NextConfig = {
+let nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
@@ -12,7 +13,6 @@ export const config: NextConfig = {
     ],
   },
 
-  // biome-ignore lint/suspicious/useAwait: rewrites is async
   async rewrites() {
     return [
       {
@@ -33,6 +33,11 @@ export const config: NextConfig = {
   // This is required to support PostHog trailing slash API requests
   skipTrailingSlashRedirect: true,
 };
-
-export const withAnalyzer = (sourceConfig: NextConfig): NextConfig =>
+const withAnalyzer = (sourceConfig: NextConfig): NextConfig =>
   withBundleAnalyzer()(sourceConfig);
+
+if (env.ANALYZE === "true") {
+  nextConfig = withAnalyzer(nextConfig);
+}
+
+export default nextConfig;

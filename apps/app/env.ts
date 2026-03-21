@@ -5,11 +5,14 @@ import z from "zod";
 
 export const env = createEnv({
   extends: [database(), auth()],
-  server: {},
+  server: {
+    ANALYZE: z.string().optional(),
+  },
   client: {
     NEXT_PUBLIC_APP_URL: z.url(),
   },
   runtimeEnv: {
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    ANALYZE: process.env.ANALYZE,
   },
 });
