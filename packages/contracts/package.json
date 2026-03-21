@@ -5,28 +5,31 @@
   "type": "module",
   "exports": {
     "./TimeLendMVP": {
-      "types": "./src/out/TimeLendMVP.sol/TimeLendMVP.json",
-      "default": "./src/out/TimeLendMVP.sol/TimeLendMVP.json"
+      "types": "./artifacts/src/TimeLendMVP.sol/TimeLendMVP.json",
+      "default": "./artifacts/src/TimeLendMVP.sol/TimeLendMVP.json"
     },
     "./keys": "./keys.ts"
   },
   "files": [
-    "src/out"
+    "artifacts"
   ],
   "scripts": {
-    "build": "node scripts/deploy.js -- build",
-    "clean": "git clean -xdf src/out src/cache .turbo node_modules",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
-    "deploy": "node scripts/deploy.js script script/Deploy.s.sol:DeployScript",
-    "deploy:fuji": "node scripts/deploy.js script script/Deploy.s.sol:DeployScript --rpc-url https://api.avax-test.network/ext/bc/C/rpc --broadcast"
+    "build": "hardhat compile",
+    "clean": "hardhat clean && git clean -xdf artifacts cache .turbo node_modules",
+    "deploy:fuji": "hardhat run scripts/deploy.ts --network fuji",
+    "deploy:local": "hardhat run scripts/deploy.ts --network localhost",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.13.10",
+    "dotenv": "^16.4.7",
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "25.5.0",
+    "hardhat": "^2.22.18",
     "typescript": "^5.9.3",
     "viem": "^2.47.5"
   }
