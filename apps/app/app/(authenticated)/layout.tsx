@@ -1,6 +1,7 @@
 import { SidebarProvider } from "@repo/design-system/components/ui/sidebar";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
+import { Providers } from "@/app/(authenticated)/_components/providers";
 import { getSession } from "@/server/better-auth/server";
 import { GlobalSidebar } from "./_components/sidebar";
 
@@ -16,7 +17,9 @@ const AppLayout = async ({ children }: AppLayoutProperties) => {
 
   return (
     <SidebarProvider>
-      <GlobalSidebar>{children}</GlobalSidebar>
+      <GlobalSidebar>
+        <Providers>{children}</Providers>
+      </GlobalSidebar>
     </SidebarProvider>
   );
 };

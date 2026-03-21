@@ -75,6 +75,11 @@ const data = {
       icon: LifeBuoyIcon,
     },
     {
+      title: "Wallet",
+      url: "/wallet",
+      icon: SendIcon,
+    },
+    {
       title: "Playground",
       url: "#",
       icon: SquareTerminalIcon,
