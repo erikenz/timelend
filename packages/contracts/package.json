@@ -2,16 +2,30 @@
   "name": "@repo/contracts",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
+  "exports": {
+    "./TimeLendMVP": {
+      "types": "./src/out/TimeLendMVP.sol/TimeLendMVP.json",
+      "default": "./src/out/TimeLendMVP.sol/TimeLendMVP.json"
+    },
+    "./keys": "./keys.ts"
+  },
+  "files": [
+    "src/out"
+  ],
   "scripts": {
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "build": "cd src && forge build",
+    "clean": "git clean -xdf src/out src/cache .turbo node_modules",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@t3-oss/env-nextjs": "^0.13.10",
+    "zod": "^4.3.6"
+  },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@types/node": "25.5.0",
-    "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "viem": "^2.47.5"
   }
 }

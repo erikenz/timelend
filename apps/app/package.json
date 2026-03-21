@@ -14,6 +14,7 @@
     "@daveyplate/better-auth-ui": "^3.3.15",
     "@repo/ai": "workspace:*",
     "@repo/auth": "workspace:*",
+    "@repo/contracts": "workspace:*",
     "@repo/database": "workspace:*",
     "@repo/design-system": "workspace:*",
     "@repo/seo": "workspace:*",

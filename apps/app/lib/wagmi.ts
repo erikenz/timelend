@@ -1,11 +1,12 @@
 import { createConfig, http } from "wagmi";
-import { avalancheFuji } from "wagmi/chains";
+import { avalanche, avalancheFuji } from "wagmi/chains";
 import { injected } from "wagmi/connectors";
 
 export const wagmiConfig = createConfig({
-  chains: [avalancheFuji],
+  chains: [avalancheFuji, avalanche],
   connectors: [injected()],
   transports: {
     [avalancheFuji.id]: http(),
+    [avalanche.id]: http(),
   },
 });
