@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { database, PrismaClient } from "@repo/database";
-import { CreateCommitmentDto } from "./dto/create-commitment.dto";
-import { UpdateCommitmentDto } from "./dto/update-commitment.dto";
+import { database, type PrismaClient } from "@repo/database";
+import type { CreateCommitmentDto } from "./dto/create-commitment.dto";
+import type { UpdateCommitmentDto } from "./dto/update-commitment.dto";
 
 @Injectable()
 export class CommitmentService {

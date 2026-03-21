@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
-import WalletConnect from '../../components/WalletConnect'
-import { WagmiProvider } from 'wagmi'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { config } from '../../lib/wagmi'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { WagmiProvider } from "wagmi";
+import WalletConnect from "../../components/WalletConnect";
+import { config } from "../../lib/wagmi";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 export default function TestPage() {
   return (
@@ -17,5 +17,5 @@ export default function TestPage() {
         </main>
       </QueryClientProvider>
     </WagmiProvider>
-  )
+  );
 }

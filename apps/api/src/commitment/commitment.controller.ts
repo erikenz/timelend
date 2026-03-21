@@ -7,9 +7,9 @@ import {
   Patch,
   Post,
 } from "@nestjs/common";
-import { CommitmentService } from "./commitment.service";
-import { CreateCommitmentDto } from "./dto/create-commitment.dto";
-import { UpdateCommitmentDto } from "./dto/update-commitment.dto";
+import type { CommitmentService } from "./commitment.service";
+import type { CreateCommitmentDto } from "./dto/create-commitment.dto";
+import type { UpdateCommitmentDto } from "./dto/update-commitment.dto";
 
 @Controller("commitment")
 export class CommitmentController {

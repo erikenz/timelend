@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
+import { database, PrismaClient } from "@repo/database";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { CommitmentModule } from "./commitment/commitment.module";
 import { UsersModule } from "./users/users.module";
-import { PrismaClient, database } from "@repo/database";
 
 @Module({
   imports: [UsersModule, CommitmentModule],
