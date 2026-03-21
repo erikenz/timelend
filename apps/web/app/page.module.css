@@ -1,7 +1,7 @@
 .page {
   width: min(100%, 1080px);
-  margin: 0 auto;
   padding: 3rem 1rem;
+  margin: 0 auto;
 }
 
 .navbar {
@@ -9,19 +9,19 @@
   top: 0;
   z-index: 20;
   width: 100%;
-  border-bottom: 1px solid var(--border);
   background: color-mix(in srgb, var(--background) 88%, transparent);
+  border-bottom: 1px solid var(--border);
   backdrop-filter: blur(8px);
 }
 
 .navbarInner {
-  width: min(100%, 1080px);
-  margin: 0 auto;
-  padding: 0.9rem 1rem;
   display: flex;
+  gap: 1rem;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  width: min(100%, 1080px);
+  padding: 0.9rem 1rem;
+  margin: 0 auto;
 }
 
 .brand {
@@ -37,14 +37,16 @@
 }
 
 .buttonPrimary {
-  border: 1px solid var(--primary);
-  background: var(--primary);
-  color: #041234;
-  font-weight: 700;
-  border-radius: 0.7rem;
   padding: 0.65rem 1rem;
+  font-weight: 700;
+  color: #041234;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
+  background: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 0.7rem;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
 }
 
 .buttonPrimary:hover {
@@ -56,9 +58,9 @@
 }
 
 .hero {
-  padding: 4rem 0 2rem;
   display: grid;
   gap: 1rem;
+  padding: 4rem 0 2rem;
 }
 
 .title {
@@ -67,30 +69,30 @@
 }
 
 .description {
-  color: var(--muted);
   max-width: 60ch;
+  color: var(--muted);
 }
 
 .section {
-  margin-top: 2rem;
   display: grid;
   gap: 1rem;
+  margin-top: 2rem;
 }
 
 .createContainer {
   width: min(100%, 860px);
-  margin: 0 auto;
   padding: 2rem 1rem 3rem;
+  margin: 0 auto;
 }
 
 .form {
+  display: grid;
+  gap: 1rem;
+  padding: 1.2rem;
   margin-top: 1.2rem;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 1rem;
-  padding: 1.2rem;
-  display: grid;
-  gap: 1rem;
 }
 
 .field {
@@ -104,11 +106,11 @@
 }
 
 .input {
+  padding: 0.7rem 0.8rem;
+  color: var(--foreground);
+  background: var(--surface-soft);
   border: 1px solid var(--border);
   border-radius: 0.65rem;
-  padding: 0.7rem 0.8rem;
-  background: var(--surface-soft);
-  color: var(--foreground);
 }
 
 .input:focus-visible,
@@ -121,24 +123,24 @@
 
 .dashboardContainer {
   width: min(100%, 1080px);
-  margin: 0 auto;
   padding: 2rem 1rem 3rem;
+  margin: 0 auto;
 }
 
 .cardGrid {
-  margin-top: 1.2rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
+  margin-top: 1.2rem;
 }
 
 .card {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1rem;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 1rem;
-  padding: 1rem;
-  display: grid;
-  gap: 0.45rem;
 }
 
 .cardTitle {
@@ -147,32 +149,32 @@
 }
 
 .cardMeta {
-  color: var(--muted);
   font-size: 0.95rem;
+  color: var(--muted);
 }
 
 .statusBadge {
   display: inline-flex;
   align-items: center;
-  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
   font-size: 0.82rem;
   font-weight: 700;
-  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
 }
 
 .statusPending {
-  background: rgba(110, 168, 254, 0.2);
   color: #b8d4ff;
+  background: rgba(110, 168, 254, 0.2);
 }
 
 .statusCompleted {
-  background: rgba(95, 219, 149, 0.2);
   color: #98efbc;
+  background: rgba(95, 219, 149, 0.2);
 }
 
 .statusOverdue {
-  background: rgba(255, 132, 132, 0.2);
   color: #ffb3b3;
+  background: rgba(255, 132, 132, 0.2);
 }
 
 @media (max-width: 720px) {

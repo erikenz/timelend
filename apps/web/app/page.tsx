@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import styles from './page.module.css';
+import styles from "./page.module.css";
 
 export default function Home() {
   const handleConnectWallet = () => {
-    console.log('Connect Wallet clicked from Home');
+    console.log("Connect Wallet clicked from Home");
   };
 
   return (
@@ -15,7 +15,11 @@ export default function Home() {
           Gestiona compromisos de préstamo con una interfaz simple y rápida.
         </p>
         <div className={styles.section}>
-          <button type="button" className={styles.buttonPrimary} onClick={handleConnectWallet}>
+          <button
+            className={styles.buttonPrimary}
+            onClick={handleConnectWallet}
+            type="button"
+          >
             Connect Wallet
           </button>
         </div>

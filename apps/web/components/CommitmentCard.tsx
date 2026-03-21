@@ -1,23 +1,28 @@
-import styles from '../app/page.module.css';
+import styles from "../app/page.module.css";
 
 type CommitmentCardProps = {
   description: string;
   deadline: string;
   amount: number;
-  status: 'pending' | 'completed' | 'overdue';
+  status: "pending" | "completed" | "overdue";
 };
 
-export function CommitmentCard({ description, deadline, amount, status }: CommitmentCardProps) {
-  const statusLabels: Record<CommitmentCardProps['status'], string> = {
-    pending: 'Pendiente',
-    completed: 'Completado',
-    overdue: 'Vencido',
+export function CommitmentCard({
+  description,
+  deadline,
+  amount,
+  status,
+}: CommitmentCardProps) {
+  const statusLabels: Record<CommitmentCardProps["status"], string> = {
+    pending: "Pendiente",
+    completed: "Completado",
+    overdue: "Vencido",
   };
 
   const statusClassName =
-    status === 'pending'
+    status === "pending"
       ? styles.statusPending
-      : status === 'completed'
+      : status === "completed"
         ? styles.statusCompleted
         : styles.statusOverdue;
 
@@ -27,8 +32,8 @@ export function CommitmentCard({ description, deadline, amount, status }: Commit
       <p className={styles.cardMeta}>Deadline: {deadline}</p>
       <p className={styles.cardMeta}>Amount: ${amount.toFixed(2)}</p>
       <p className={styles.cardMeta}>
-        Estado:{' '}
-        <span className={`${styles.statusBadge} ${statusClassName ?? ''}`}>
+        Estado:{" "}
+        <span className={`${styles.statusBadge} ${statusClassName ?? ""}`}>
           {statusLabels[status]}
         </span>
       </p>

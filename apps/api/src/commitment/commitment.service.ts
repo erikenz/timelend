@@ -5,27 +5,27 @@ import type { UpdateCommitmentDto } from "./dto/update-commitment.dto";
 
 @Injectable()
 export class CommitmentService {
-	constructor(private prisma: PrismaClient) {}
-	async create(createCommitmentDto: CreateCommitmentDto) {
-		const created = await database.commitment.create({
-			data: createCommitmentDto,
-		});
-		return created;
-	}
+  constructor(private prisma: PrismaClient) {}
+  async create(createCommitmentDto: CreateCommitmentDto) {
+    const created = await database.commitment.create({
+      data: createCommitmentDto,
+    });
+    return created;
+  }
 
-	findAll() {
-		return `This action returns all commitment`;
-	}
+  findAll() {
+    return "This action returns all commitment";
+  }
 
-	findOne(id: number) {
-		return `This action returns a #${id} commitment`;
-	}
+  findOne(id: number) {
+    return `This action returns a #${id} commitment`;
+  }
 
-	update(id: number, updateCommitmentDto: UpdateCommitmentDto) {
-		return `This action updates a #${id} commitment`;
-	}
+  update(id: number, updateCommitmentDto: UpdateCommitmentDto) {
+    return `This action updates a #${id} commitment`;
+  }
 
-	remove(id: number) {
-		return `This action removes a #${id} commitment`;
-	}
+  remove(id: number) {
+    return `This action removes a #${id} commitment`;
+  }
 }

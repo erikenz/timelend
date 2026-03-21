@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import styles from '../app/page.module.css';
+import styles from "../app/page.module.css";
 
 type FormValues = {
   description: string;
@@ -12,11 +12,11 @@ type FormValues = {
 
 export function CreateForm() {
   const [formValues, setFormValues] = useState<FormValues>({
-    description: '',
-    deadline: '',
-    amount: '',
+    description: "",
+    deadline: "",
+    amount: "",
   });
-  const minDate = new Date().toISOString().split('T')[0];
+  const minDate = new Date().toISOString().split("T")[0];
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -35,68 +35,68 @@ export function CreateForm() {
       amount: Number(formValues.amount),
     };
 
-    console.log('Create commitment form submit:', payload);
+    console.log("Create commitment form submit:", payload);
     setFormValues({
-      description: '',
-      deadline: '',
-      amount: '',
+      description: "",
+      deadline: "",
+      amount: "",
     });
   };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.field}>
-        <label htmlFor="description" className={styles.label}>
+        <label className={styles.label} htmlFor="description">
           Description
         </label>
         <input
+          className={styles.input}
           id="description"
           name="description"
-          type="text"
-          className={styles.input}
-          value={formValues.description}
           onChange={handleChange}
           placeholder="Ej. Préstamo para curso"
           required
+          type="text"
+          value={formValues.description}
         />
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="deadline" className={styles.label}>
+        <label className={styles.label} htmlFor="deadline">
           Deadline
         </label>
         <input
-          id="deadline"
-          name="deadline"
-          type="date"
           className={styles.input}
-          value={formValues.deadline}
-          onChange={handleChange}
+          id="deadline"
           min={minDate}
+          name="deadline"
+          onChange={handleChange}
           required
+          type="date"
+          value={formValues.deadline}
         />
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="amount" className={styles.label}>
+        <label className={styles.label} htmlFor="amount">
           Amount
         </label>
         <input
-          id="amount"
-          name="amount"
-          type="number"
           className={styles.input}
-          value={formValues.amount}
-          onChange={handleChange}
-          placeholder="0"
+          id="amount"
           inputMode="decimal"
           min="0"
-          step="0.01"
+          name="amount"
+          onChange={handleChange}
+          placeholder="0"
           required
+          step="0.01"
+          type="number"
+          value={formValues.amount}
         />
       </div>
 
-      <button type="submit" className={styles.buttonPrimary}>
+      <button className={styles.buttonPrimary} type="submit">
         Create Commitment
       </button>
     </form>
