@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { Navbar } from "../components/Navbar";
 import './globals.css';
-import Providers from './providers';
+import { Providers } from './providers';
 
 import { WagmiProvider } from 'wagmi'
 import { config } from '../lib/wagmi'
