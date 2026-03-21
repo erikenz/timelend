@@ -65,6 +65,16 @@ const data = {
   },
   navMain: [
     {
+      title: "Commitments",
+      url: "/commitments",
+      icon: AnchorIcon,
+    },
+    {
+      title: "Payments",
+      url: "/payments",
+      icon: LifeBuoyIcon,
+    },
+    {
       title: "Playground",
       url: "#",
       icon: SquareTerminalIcon,
