@@ -4,6 +4,10 @@
   "main": "./index.ts",
   "types": "./index.ts",
   "scripts": {
+    "dev": "pnpm run db:start; pnpm run db:stop",
+    "db:reset": "docker compose down -v && docker compose up -d",
+    "db:start": "docker compose up",
+    "db:stop": "docker compose stop",
     "analyze": "prisma generate --no-hints --schema=./prisma/schema.prisma",
     "build": "prisma generate --no-hints --schema=./prisma/schema.prisma",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
@@ -21,7 +25,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@repo/typescript-config": "*",
+    "@repo/typescript-config": "workspace:*",
     "@types/node": "25.3.5",
     "@types/ws": "^8.18.1",
     "bufferutil": "^4.1.0",
