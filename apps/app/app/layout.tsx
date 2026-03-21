@@ -1,5 +1,5 @@
+import { Providers } from "@/components/providers";
 import "./styles.css";
-import { DesignSystemProvider } from "@repo/design-system";
 import { fonts } from "@repo/design-system/lib/fonts";
 import type { ReactNode } from "react";
 
@@ -10,15 +10,7 @@ interface RootLayoutProperties {
 const RootLayout = ({ children }: RootLayoutProperties) => (
   <html className={fonts} lang="en" suppressHydrationWarning>
     <body>
-      <DesignSystemProvider
-      // privacyUrl={new URL(
-      //   "/legal/privacy",
-      //   env.NEXT_PUBLIC_APP_URL
-      // ).toString()}
-      // termsUrl={new URL("/legal/terms", env.NEXT_PUBLIC_APP_URL).toString()}
-      >
-        {children}
-      </DesignSystemProvider>
+      <Providers>{children}</Providers>
     </body>
   </html>
 );

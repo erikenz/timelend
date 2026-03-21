@@ -27,6 +27,8 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
+  walletaddresss WalletAddress[]
+
   @@map("user")
 }
 
@@ -99,4 +101,17 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+model WalletAddress {
+  id        String   @id
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  address   String
+  chainId   Int
+  isPrimary Boolean? @default(false)
+  createdAt DateTime
+
+  @@index([userId])
+  @@map("walletAddress")
 }
