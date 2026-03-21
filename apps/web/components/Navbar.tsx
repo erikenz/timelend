@@ -3,12 +3,9 @@
 import Link from "next/link";
 
 import styles from "../app/page.module.css";
+import WalletConnect from "./WalletConnect";
 
 export function Navbar() {
-  const handleConnectWallet = () => {
-    console.log("Connect Wallet clicked from Navbar");
-  };
-
   return (
     <header className={styles.navbar}>
       <div className={styles.navbarInner}>
@@ -22,14 +19,7 @@ export function Navbar() {
           <Link href="/dashboard">Dashboard</Link>
         </nav>
 
-        <button
-          aria-label="Connect Wallet"
-          className={styles.buttonPrimary}
-          onClick={handleConnectWallet}
-          type="button"
-        >
-          Connect Wallet
-        </button>
+        <WalletConnect />
       </div>
     </header>
   );
