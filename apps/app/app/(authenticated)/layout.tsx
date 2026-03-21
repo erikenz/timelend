@@ -14,7 +14,7 @@ const AppLayout = async ({ children }: AppLayoutProperties) => {
     headers: await headers(), // from next/headers
   });
   if (!session?.user) {
-    return redirect("/sign-in"); // from next/navigation
+    return redirect("/auth/sign-in"); // from next/navigation
   }
 
   return (

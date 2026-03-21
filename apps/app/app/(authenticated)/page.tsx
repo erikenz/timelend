@@ -1,8 +1,5 @@
-import { auth } from "@repo/auth/server";
 import { database } from "@repo/database";
 import type { Metadata } from "next";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import { Header } from "@/app/(authenticated)/components/header";
 
 const title = "Acme Inc";
@@ -14,13 +11,13 @@ export const metadata: Metadata = {
 };
 
 const App = async () => {
+  // const session = await auth.api.getSession({
+  //   headers: await headers(), // from next/headers
+  // });
+  // if (!session?.user) {
+  //   return redirect("/auth/sign-in"); // from next/navigation
+  // }
   const commitments = await database.commitment.findMany();
-  const session = await auth.api.getSession({
-    headers: await headers(), // from next/headers
-  });
-  if (!session?.user) {
-    return redirect("/sign-in"); // from next/navigation
-  }
 
   return (
     <>

@@ -1,7 +1,4 @@
-import { auth } from "@repo/auth/server";
 import { database } from "@repo/database";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import { Header } from "../components/header";
 
 const PaymentsPage = async () => {
@@ -12,13 +9,6 @@ const PaymentsPage = async () => {
       },
     },
   });
-
-  const session = await auth.api.getSession({
-    headers: await headers(), // from next/headers
-  });
-  if (!session?.user) {
-    return redirect("/sign-in"); // from next/navigation
-  }
 
   return (
     <>
