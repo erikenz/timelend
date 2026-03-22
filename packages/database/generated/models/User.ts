@@ -200,7 +200,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
-  walletaddresss?: Prisma.WalletAddressListRelationFilter
+  walletAddresses?: Prisma.WalletAddressListRelationFilter
   commitments?: Prisma.CommitmentListRelationFilter
 }
 
@@ -214,7 +214,7 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
-  walletaddresss?: Prisma.WalletAddressOrderByRelationAggregateInput
+  walletAddresses?: Prisma.WalletAddressOrderByRelationAggregateInput
   commitments?: Prisma.CommitmentOrderByRelationAggregateInput
 }
 
@@ -231,7 +231,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
-  walletaddresss?: Prisma.WalletAddressListRelationFilter
+  walletAddresses?: Prisma.WalletAddressListRelationFilter
   commitments?: Prisma.CommitmentListRelationFilter
 }, "id" | "email">
 
@@ -271,7 +271,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  walletaddresss?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
   commitments?: Prisma.CommitmentCreateNestedManyWithoutUserInput
 }
 
@@ -285,7 +285,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  walletaddresss?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
   commitments?: Prisma.CommitmentUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -299,7 +299,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  walletaddresss?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
   commitments?: Prisma.CommitmentUpdateManyWithoutUserNestedInput
 }
 
@@ -313,7 +313,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  walletaddresss?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
   commitments?: Prisma.CommitmentUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -426,18 +426,18 @@ export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAccountsInput, Prisma.UserUpdateWithoutAccountsInput>, Prisma.UserUncheckedUpdateWithoutAccountsInput>
 }
 
-export type UserCreateNestedOneWithoutWalletaddresssInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutWalletaddresssInput, Prisma.UserUncheckedCreateWithoutWalletaddresssInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWalletaddresssInput
+export type UserCreateNestedOneWithoutWalletAddressesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWalletAddressesInput, Prisma.UserUncheckedCreateWithoutWalletAddressesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWalletAddressesInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutWalletaddresssNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutWalletaddresssInput, Prisma.UserUncheckedCreateWithoutWalletaddresssInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWalletaddresssInput
-  upsert?: Prisma.UserUpsertWithoutWalletaddresssInput
+export type UserUpdateOneRequiredWithoutWalletAddressesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWalletAddressesInput, Prisma.UserUncheckedCreateWithoutWalletAddressesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWalletAddressesInput
+  upsert?: Prisma.UserUpsertWithoutWalletAddressesInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWalletaddresssInput, Prisma.UserUpdateWithoutWalletaddresssInput>, Prisma.UserUncheckedUpdateWithoutWalletaddresssInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWalletAddressesInput, Prisma.UserUpdateWithoutWalletAddressesInput>, Prisma.UserUncheckedUpdateWithoutWalletAddressesInput>
 }
 
 export type UserCreateNestedOneWithoutCommitmentsInput = {
@@ -463,7 +463,7 @@ export type UserCreateWithoutSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  walletaddresss?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
   commitments?: Prisma.CommitmentCreateNestedManyWithoutUserInput
 }
 
@@ -476,7 +476,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  walletaddresss?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
   commitments?: Prisma.CommitmentUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -505,7 +505,7 @@ export type UserUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  walletaddresss?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
   commitments?: Prisma.CommitmentUpdateManyWithoutUserNestedInput
 }
 
@@ -518,7 +518,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  walletaddresss?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
   commitments?: Prisma.CommitmentUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -531,7 +531,7 @@ export type UserCreateWithoutAccountsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  walletaddresss?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
   commitments?: Prisma.CommitmentCreateNestedManyWithoutUserInput
 }
 
@@ -544,7 +544,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  walletaddresss?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
   commitments?: Prisma.CommitmentUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -573,7 +573,7 @@ export type UserUpdateWithoutAccountsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  walletaddresss?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
   commitments?: Prisma.CommitmentUpdateManyWithoutUserNestedInput
 }
 
@@ -586,11 +586,11 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  walletaddresss?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
   commitments?: Prisma.CommitmentUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutWalletaddresssInput = {
+export type UserCreateWithoutWalletAddressesInput = {
   id: string
   name: string
   email: string
@@ -603,7 +603,7 @@ export type UserCreateWithoutWalletaddresssInput = {
   commitments?: Prisma.CommitmentCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutWalletaddresssInput = {
+export type UserUncheckedCreateWithoutWalletAddressesInput = {
   id: string
   name: string
   email: string
@@ -616,23 +616,23 @@ export type UserUncheckedCreateWithoutWalletaddresssInput = {
   commitments?: Prisma.CommitmentUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutWalletaddresssInput = {
+export type UserCreateOrConnectWithoutWalletAddressesInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutWalletaddresssInput, Prisma.UserUncheckedCreateWithoutWalletaddresssInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWalletAddressesInput, Prisma.UserUncheckedCreateWithoutWalletAddressesInput>
 }
 
-export type UserUpsertWithoutWalletaddresssInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutWalletaddresssInput, Prisma.UserUncheckedUpdateWithoutWalletaddresssInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutWalletaddresssInput, Prisma.UserUncheckedCreateWithoutWalletaddresssInput>
+export type UserUpsertWithoutWalletAddressesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWalletAddressesInput, Prisma.UserUncheckedUpdateWithoutWalletAddressesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWalletAddressesInput, Prisma.UserUncheckedCreateWithoutWalletAddressesInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutWalletaddresssInput = {
+export type UserUpdateToOneWithWhereWithoutWalletAddressesInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutWalletaddresssInput, Prisma.UserUncheckedUpdateWithoutWalletaddresssInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWalletAddressesInput, Prisma.UserUncheckedUpdateWithoutWalletAddressesInput>
 }
 
-export type UserUpdateWithoutWalletaddresssInput = {
+export type UserUpdateWithoutWalletAddressesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -645,7 +645,7 @@ export type UserUpdateWithoutWalletaddresssInput = {
   commitments?: Prisma.CommitmentUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutWalletaddresssInput = {
+export type UserUncheckedUpdateWithoutWalletAddressesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -668,7 +668,7 @@ export type UserCreateWithoutCommitmentsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  walletaddresss?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
+  walletAddresses?: Prisma.WalletAddressCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommitmentsInput = {
@@ -681,7 +681,7 @@ export type UserUncheckedCreateWithoutCommitmentsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  walletaddresss?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
+  walletAddresses?: Prisma.WalletAddressUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommitmentsInput = {
@@ -710,7 +710,7 @@ export type UserUpdateWithoutCommitmentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  walletaddresss?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
+  walletAddresses?: Prisma.WalletAddressUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommitmentsInput = {
@@ -723,7 +723,7 @@ export type UserUncheckedUpdateWithoutCommitmentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  walletaddresss?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
+  walletAddresses?: Prisma.WalletAddressUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -734,14 +734,14 @@ export type UserUncheckedUpdateWithoutCommitmentsInput = {
 export type UserCountOutputType = {
   sessions: number
   accounts: number
-  walletaddresss: number
+  walletAddresses: number
   commitments: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
-  walletaddresss?: boolean | UserCountOutputTypeCountWalletaddresssArgs
+  walletAddresses?: boolean | UserCountOutputTypeCountWalletAddressesArgs
   commitments?: boolean | UserCountOutputTypeCountCommitmentsArgs
 }
 
@@ -772,7 +772,7 @@ export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends runtime.Types.E
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountWalletaddresssArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UserCountOutputTypeCountWalletAddressesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.WalletAddressWhereInput
 }
 
@@ -794,7 +794,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
-  walletaddresss?: boolean | Prisma.User$walletaddresssArgs<ExtArgs>
+  walletAddresses?: boolean | Prisma.User$walletAddressesArgs<ExtArgs>
   commitments?: boolean | Prisma.User$commitmentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -833,7 +833,7 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
-  walletaddresss?: boolean | Prisma.User$walletaddresssArgs<ExtArgs>
+  walletAddresses?: boolean | Prisma.User$walletAddressesArgs<ExtArgs>
   commitments?: boolean | Prisma.User$commitmentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -845,7 +845,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
-    walletaddresss: Prisma.$WalletAddressPayload<ExtArgs>[]
+    walletAddresses: Prisma.$WalletAddressPayload<ExtArgs>[]
     commitments: Prisma.$CommitmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1252,7 +1252,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  walletaddresss<T extends Prisma.User$walletaddresssArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$walletaddresssArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WalletAddressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  walletAddresses<T extends Prisma.User$walletAddressesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$walletAddressesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WalletAddressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   commitments<T extends Prisma.User$commitmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commitmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommitmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1731,9 +1731,9 @@ export type User$accountsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
- * User.walletaddresss
+ * User.walletAddresses
  */
-export type User$walletaddresssArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$walletAddressesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the WalletAddress
    */

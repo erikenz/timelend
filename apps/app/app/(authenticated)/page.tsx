@@ -13,11 +13,10 @@ export const metadata: Metadata = {
 };
 
 const App = async () => {
-  const hello = await api.post.hello({ text: "from tRPC" });
   const session = await getSession();
 
   if (session) {
-    api.post.getLatest.prefetch();
+    api.commitments.getAll.prefetch();
   }
   const commitments = await database.commitment.findMany();
 
@@ -26,7 +25,7 @@ const App = async () => {
       <Header page="Data Fetching" pages={["Building Your Application"]} />
 
       <p className="text-2xl text-white">
-        {hello ? hello.greeting : "Loading tRPC query..."}
+        TimeLend MVP - Your Web3 Commitment Tracker
       </p>
       <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
         <div className="grid auto-rows-min gap-4 md:grid-cols-3">

@@ -9,8 +9,8 @@ export const CONTRACT_ABI = [
       { name: "durationSeconds", type: "uint64" },
       { name: "verifier", type: "address" },
       { name: "penaltyReceiver", type: "address" },
-      { name: "taskURI", type: "string" }
+      { name: "taskURI", type: "string" },
     ],
-    outputs: [{ type: "uint256" }]
-  }
+    outputs: [{ type: "uint256" }],
+  },
 ];

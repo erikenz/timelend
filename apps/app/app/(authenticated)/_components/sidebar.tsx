@@ -1,5 +1,7 @@
 "use client";
 
+import { UserAvatar } from "@daveyplate/better-auth-ui";
+import { useSession } from "@repo/auth/client";
 import { ModeToggle } from "@repo/design-system/components/mode-toggle";
 import {
   Collapsible,
@@ -52,8 +54,6 @@ import {
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Search } from "./search";
-import { useSession } from "@repo/auth/client";
-import { UserAvatar } from "@daveyplate/better-auth-ui";
 
 interface GlobalSidebarProperties {
   readonly children: ReactNode;
