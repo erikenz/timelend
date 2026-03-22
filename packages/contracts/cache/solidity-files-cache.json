@@ -22,14 +22,20 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
           }
         }
       },
       "imports": [],
-      "versionPragmas": ["^0.8.24"],
-      "artifacts": ["TimeLendMVP"]
+      "versionPragmas": [
+        "^0.8.24"
+      ],
+      "artifacts": [
+        "TimeLendMVP"
+      ]
     }
   }
 }

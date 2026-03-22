@@ -1,6 +1,8 @@
 {
   "$schema": "https://turborepo.dev/schema.json",
-  "globalDependencies": ["**/.env.*local"],
+  "globalDependencies": [
+    "**/.env.*local"
+  ],
   "ui": "tui",
   "tasks": {
     "dev": {
@@ -8,8 +10,22 @@
       "persistent": true
     },
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "dist/**"
+      ],
+      "env": [
+        "DATABASE_URL",
+        "BETTER_AUTH_SECRET",
+        "BETTER_AUTH_URL",
+        "PRIVATE_KEY",
+        "AVALANCHE_FUJI_RPC_URL",
+        "GOOGLE_GENERATIVE_AI_API_KEY"
+      ]
     },
     "lint": {},
     "test": {},

@@ -14,6 +14,8 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
+    "@prisma/adapter-neon": "^7.5.0",
     "@prisma/adapter-pg": "^7.5.0",
     "@prisma/client": "7.5.0",
     "@prisma/client-runtime-utils": "^7.5.0",

@@ -1,5 +1,0 @@
-export const env = {
-  NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID:
-    process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ||
-    "b93a36b9f8b3d6f73d3f4b8c9d0e1f2g",
-};

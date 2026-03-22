@@ -2,13 +2,7 @@ import { database } from "@repo/database";
 import { Header } from "../_components/header";
 
 const PaymentsPage = async () => {
-  const payments = await database.payment.findMany({
-    where: {
-      paidAt: {
-        equals: "true",
-      },
-    },
-  });
+  const payments = await database.payment.findMany();
 
   return (
     <>
