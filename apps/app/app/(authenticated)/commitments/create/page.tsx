@@ -182,9 +182,22 @@ export default function CreateCommitmentPage() {
     // Parse the CommitmentCreated event to get the on-chain commitment ID
     let onChainCommitmentId: bigint | undefined;
     const commitmentCreatedTopic =
-      "0x6689af6c57de4141dc8bba1bc8b6aa283429662ca5992e43bf1c394c8204467";
+      "0x0643d22604ae640e3d16aa62509ab80a14544d2dc0ed9d13477e8989b7ceb189";
+    console.log("[Create Debug] Parsing logs for commitment ID", {
+      txReceiptLogs: txReceipt?.logs?.length,
+      expectedAddress: TIME_LEND_ADDRESS[AVALANCHE_FUJI_CHAIN_ID].toLowerCase(),
+      expectedTopic: commitmentCreatedTopic,
+    });
     if (txReceipt?.logs) {
       for (const log of txReceipt.logs) {
+        console.log("[Create Debug] Log:", {
+          address: log.address.toLowerCase(),
+          topic0: log.topics[0],
+          topicsMatch: log.topics[0] === commitmentCreatedTopic,
+          addressMatch:
+            log.address.toLowerCase() ===
+            TIME_LEND_ADDRESS[AVALANCHE_FUJI_CHAIN_ID].toLowerCase(),
+        });
         // Check if log address matches our contract and has the event signature
         if (
           log.address.toLowerCase() ===
@@ -193,6 +206,10 @@ export default function CreateCommitmentPage() {
         ) {
           // First topic after the event signature is the commitmentId
           onChainCommitmentId = BigInt(log.topics[1]);
+          console.log(
+            "[Create Debug] Found commitment ID:",
+            onChainCommitmentId.toString()
+          );
           break;
         }
       }
@@ -210,11 +227,20 @@ export default function CreateCommitmentPage() {
       })
       .then(async (result) => {
         // Sync with on-chain data if we have the commitment ID
-        if (onChainCommitmentId !== undefined) {
+        console.log("[Create Debug] Creating DB record, sync data:", {
+          dbId: result.id,
+          onChainCommitmentId: onChainCommitmentId?.toString(),
+          shouldSync: onChainCommitmentId !== undefined,
+        });
+        if (onChainCommitmentId === undefined) {
+          console.log("[Create Debug] Skipping sync - no onChainCommitmentId");
+        } else {
+          console.log("[Create Debug] Calling syncWithContract...");
           await syncWithContractMutation.mutateAsync({
             commitmentId: result.id,
             onChainCommitmentId,
           });
+          console.log("[Create Debug] Sync completed");
         }
         toast.success("Commitment created successfully!");
         router.push(`/commitments/${result.id}`);

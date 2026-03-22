@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import styles from './page.module.css';
-import WalletConnect from '../components/WalletConnect';
+import WalletConnect from "../components/WalletConnect";
+import styles from "./page.module.css";
 
 export default function Home() {
   return (

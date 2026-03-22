@@ -9,6 +9,7 @@ import { Input } from "@repo/design-system/components/ui/input";
 import { Label } from "@repo/design-system/components/ui/label";
 import { Loader2 } from "lucide-react";
 import { useRef } from "react";
+import { toast } from "sonner";
 import { COMMITMENT_STATUS } from "@/lib/contracts";
 import {
   useClaimPenalty,
@@ -120,22 +121,17 @@ export function ActionsCard({
   const showClaimPenalty = isPenaltyReceiver && isFailed;
   const showMarkFailed = isActive && deadlinePassed;
 
-  if (
-    !(
-      showUserProof ||
-      showVerifier ||
-      showClaimSuccess ||
-      showClaimPenalty ||
-      showMarkFailed
-    )
-  ) {
-    return null;
-  }
+  const hasAnyAction =
+    showUserProof ||
+    showVerifier ||
+    showClaimSuccess ||
+    showClaimPenalty ||
+    showMarkFailed;
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Actions</CardTitle>
+        <CardTitle>{hasAnyAction ? "Actions" : "Debug Actions"}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {showUserProof && (
@@ -182,6 +178,56 @@ export function ActionsCard({
             variant="destructive"
           />
         )}
+
+        {/* DEBUG BUTTONS */}
+        <div className="mt-4 border-t pt-4">
+          <Label className="text-destructive">⚠️ Debug Actions</Label>
+          <p className="mb-3 text-muted-foreground text-xs">
+            These bypass normal flow conditions - for testing only
+          </p>
+          <div className="grid gap-2 sm:grid-cols-2">
+            <Button
+              onClick={() => {
+                toast.info("Submitting debug proof...");
+                submitProof.submitProof(onChainId, "ipfs://debug/proof");
+              }}
+              size="sm"
+              variant="outline"
+            >
+              Debug: Submit Proof
+            </Button>
+            <Button
+              onClick={() => {
+                toast.info("Marking as debug success...");
+                verifySuccess.verifySuccess(onChainId);
+              }}
+              size="sm"
+              variant="outline"
+            >
+              Debug: Mark Success
+            </Button>
+            <Button
+              onClick={() => {
+                toast.info("Marking as debug failed...");
+                markFailed.markFailed(onChainId);
+              }}
+              size="sm"
+              variant="destructive"
+            >
+              Debug: Mark Failed
+            </Button>
+            <Button
+              onClick={() => {
+                toast.info("Claiming penalty...");
+                claimPenalty.claimPenalty(onChainId);
+              }}
+              size="sm"
+              variant="destructive"
+            >
+              Debug: Claim Penalty
+            </Button>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

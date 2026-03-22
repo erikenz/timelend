@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { use } from "react";
 import { useConnection } from "wagmi";
 import { Header } from "@/app/(authenticated)/_components/header";
+import { COMMITMENT_STATUS } from "@/lib/contracts";
 import { useCommitment } from "@/lib/use-contract";
 import { api } from "@/trpc/react";
 import {
@@ -15,6 +16,7 @@ import {
   extractOnChainCommitment,
   OnChainCard,
   StatusBadge,
+  VerificationCard,
 } from "./_components";
 
 export default function CommitmentDetailPage({
@@ -55,6 +57,13 @@ export default function CommitmentDetailPage({
     ? new Date(Number(onChainCommitment.deadline) * 1000)
     : dbCommitment.endDate;
 
+  const isActive = onChainCommitment?.status === COMMITMENT_STATUS.ACTIVE;
+  const isUser =
+    address?.toLowerCase() === onChainCommitment?.user?.toLowerCase();
+  const deadlinePassed = new Date() > deadline;
+  const canVerify =
+    isConnected && onChainId && isUser && isActive && !deadlinePassed;
+
   return (
     <>
       <Header
@@ -78,10 +87,18 @@ export default function CommitmentDetailPage({
           <OnChainCard data={onChainCommitment} deadline={deadline} />
         </div>
 
+        {canVerify && onChainId && (
+          <VerificationCard
+            commitmentId={dbCommitment.id}
+            onChainId={onChainId}
+            taskDescription={dbCommitment.description}
+          />
+        )}
+
         {isConnected && onChainId && (
           <ActionsCard
             address={address}
-            deadlinePassed={new Date() > deadline}
+            deadlinePassed={deadlinePassed}
             onChainCommitment={onChainCommitment}
             onChainId={onChainId}
           />
