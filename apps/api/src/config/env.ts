@@ -5,6 +5,8 @@ const DEFAULT_ALLOWED_ORIGINS = [
   "http://127.0.0.1:3001",
 ];
 // test
+const variable = "hola esto es un test";
+
 const DEFAULT_DATABASE_URL =
   "postgresql://postgres:postgres@localhost:5432/timelend";
 const DEFAULT_GEMINI_MODEL = "gemini-2.5-flash";
