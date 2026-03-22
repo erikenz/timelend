@@ -7,8 +7,9 @@ import {
 } from "@repo/design-system/components/ui/card";
 import { Input } from "@repo/design-system/components/ui/input";
 import { Label } from "@repo/design-system/components/ui/label";
+import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { COMMITMENT_STATUS } from "@/lib/contracts";
 import {
@@ -18,6 +19,7 @@ import {
   useSubmitProof,
   useVerifySuccess,
 } from "@/lib/use-contract";
+import { api } from "@/trpc/react";
 import type { OnChainCommitment } from "./on-chain-card";
 
 interface ActionButtonProps {
@@ -86,12 +88,14 @@ function ProofSubmitButton({ onSubmit, isPending }: ProofSubmitButtonProps) {
 
 interface ActionsCardProps {
   address: string | undefined;
+  commitmentId: string;
   deadlinePassed: boolean;
   onChainCommitment: OnChainCommitment | undefined;
   onChainId: bigint;
 }
 
 export function ActionsCard({
+  commitmentId,
   onChainId,
   onChainCommitment,
   address,
@@ -102,6 +106,44 @@ export function ActionsCard({
   const claimSuccess = useClaimSuccess();
   const claimPenalty = useClaimPenalty();
   const markFailed = useMarkFailed();
+
+  const queryClient = useQueryClient();
+  const syncMutation = api.commitments.syncWithContract.useMutation();
+
+  // Stable sync + invalidation helper to avoid stale closures.
+  // Use QueryClient + trpc v11 typed queryKey helpers to invalidate.
+  const runSync = useCallback(async () => {
+    try {
+      await syncMutation.mutateAsync({
+        commitmentId,
+        onChainCommitmentId: onChainId,
+      });
+
+      // Typed query-key invalidation (trpc v11 + createTRPCReact helpers).
+      // Build queryOptions and use their queryKey so invalidation is typed and robust.
+      const byIdOptions = api.commitments.getById.queryOptions({
+        id: commitmentId,
+      });
+      const latestOptions = api.commitments.getLatest.queryOptions();
+      await queryClient.invalidateQueries({ queryKey: byIdOptions.queryKey });
+      await queryClient.invalidateQueries({ queryKey: latestOptions.queryKey });
+
+      toast.success("Synchronized commitment after claim confirmation");
+    } catch (err) {
+      console.error("Failed to sync after claimSuccess confirmation:", err);
+      toast.error("Failed to sync with on-chain after claim confirmation");
+    }
+  }, [syncMutation, queryClient, commitmentId, onChainId]);
+
+  // When the user successfully claims on-chain, ensure the DB is synchronized
+  // and invalidate the relevant queries so the UI updates for the demo.
+  useEffect(() => {
+    if (!claimSuccess.isConfirmed) {
+      return;
+    }
+    // Fire and forget; runSync is stable and included in deps.
+    runSync().catch((err) => console.error("runSync error:", err));
+  }, [claimSuccess.isConfirmed, runSync]);
 
   const status = onChainCommitment?.status;
   const isUser =

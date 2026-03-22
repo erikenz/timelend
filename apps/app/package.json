@@ -4,6 +4,7 @@
   "scripts": {
     "analyze": "ANALYZE=true npm run build",
     "build": "next build",
+    "ci": "",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "next dev -p 3000",
     "start": "next start",
@@ -22,7 +23,7 @@
     "@t3-oss/env-nextjs": "^0.13.10",
     "@tanstack/react-form": "^1.28.5",
     "@tanstack/react-form-nextjs": "^1.28.5",
-    "@tanstack/react-query": "^5.91.3",
+    "@tanstack/react-query": "^5.94.5",
     "@tanstack/zod-adapter": "^1.166.9",
     "@trpc/client": "^11.14.1",
     "@trpc/react-query": "^11.14.1",
@@ -37,7 +38,7 @@
     "require-in-the-middle": "8.0.1",
     "sonner": "^2.0.7",
     "superjson": "^2.2.6",
-    "viem": "^2.47.5",
+    "viem": "^2.47.6",
     "wagmi": "^3.5.0",
     "zod": "^4.3.6"
   },

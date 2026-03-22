@@ -98,6 +98,7 @@ export default function CommitmentDetailPage({
         {isConnected && onChainId && (
           <ActionsCard
             address={address}
+            commitmentId={dbCommitment.id}
             deadlinePassed={deadlinePassed}
             onChainCommitment={onChainCommitment}
             onChainId={onChainId}

@@ -10,10 +10,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@repo/design-system/components/ui/card";
+import { useQueryClient } from "@tanstack/react-query";
 import { CheckCircle2, Loader2 } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useSubmitProof, useVerifySuccess } from "@/lib/use-contract";
+import { api } from "@/trpc/react";
 
 interface VerificationCardProps {
   commitmentId: string;
@@ -35,6 +37,57 @@ export function VerificationCard({
 
   const submitProof = useSubmitProof();
   const verifySuccess = useVerifySuccess();
+  const queryClient = useQueryClient();
+  const syncMutation = api.commitments.syncWithContract.useMutation();
+
+  // Stable sync + invalidate callback to avoid stale closure problems inside effects.
+  // This single stable callback contains all of the sync+invalidate logic so
+  // effects can depend on one stable reference (runSync) instead of capturing
+  // multiple values directly and risking stale closures.
+  const runSync = useCallback(async () => {
+    try {
+      await syncMutation.mutateAsync({
+        commitmentId,
+        onChainCommitmentId: onChainId,
+      });
+
+      // Typed query-key invalidation (trpc v11 + createTRPCReact helpers).
+      // Build the typed query keys and let React Query invalidate by key.
+      const byIdKey = api.commitments.getById.queryOptions({
+        id: commitmentId,
+      }).queryKey;
+      const latestKey = api.commitments.getLatest.queryOptions().queryKey;
+      await queryClient.invalidateQueries({ queryKey: byIdKey });
+      await queryClient.invalidateQueries({ queryKey: latestKey });
+
+      toast.success("Synchronized commitment with on-chain state");
+    } catch (err) {
+      console.error("Failed to sync commitment:", err);
+      toast.error("Failed to sync with on-chain. Check console for details.");
+    }
+  }, [syncMutation, queryClient, commitmentId, onChainId]);
+
+  // Effect: run the stable sync when submitProof confirms.
+  useEffect(() => {
+    if (!submitProof.isConfirmed) {
+      return;
+    }
+    runSync().catch((err) => {
+      console.error("runSync error (submitProof):", err);
+      toast.error("Failed to sync with on-chain after proof submission");
+    });
+  }, [submitProof.isConfirmed, runSync]);
+
+  // Effect: run the stable sync when verifySuccess confirms.
+  useEffect(() => {
+    if (!verifySuccess.isConfirmed) {
+      return;
+    }
+    runSync().catch((err) => {
+      console.error("runSync error (verifySuccess):", err);
+      toast.error("Failed to sync with on-chain after verification");
+    });
+  }, [verifySuccess.isConfirmed, runSync]);
 
   const handleVerificationComplete = useCallback(
     (result: AuditResult) => {

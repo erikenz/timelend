@@ -22,15 +22,15 @@
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.13.10",
-    "dotenv": "^16.4.7",
+    "dotenv": "^17.3.1",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-toolbox": "^7.0.0",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "25.5.0",
-    "hardhat": "^2.22.18",
+    "hardhat": "^3.2.0",
     "typescript": "^5.9.3",
-    "viem": "^2.47.5"
+    "viem": "^2.47.6"
   }
 }
