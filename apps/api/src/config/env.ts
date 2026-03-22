@@ -1,13 +1,10 @@
 import { TIME_LEND_CONTRACT_ADDRESS } from "@repo/contracts/timelend-contract";
 
-const LEGACY_GEMINI_API_KEY_ENV =
-  "AIzaSyCyLWX6GjiskE9oB5ACJrrqlghV7hT7VHo" as const;
-
 const DEFAULT_ALLOWED_ORIGINS = [
   "http://localhost:3001",
   "http://127.0.0.1:3001",
 ];
-
+// test
 const DEFAULT_DATABASE_URL =
   "postgresql://postgres:postgres@localhost:5432/timelend";
 const DEFAULT_GEMINI_MODEL = "gemini-2.5-flash";
@@ -96,8 +93,7 @@ export const getDatabaseConfig = () => {
   } as const;
 };
 
-export const getGeminiApiKey = () =>
-  readEnv("GEMINI_API_KEY") || readEnv(LEGACY_GEMINI_API_KEY_ENV);
+export const getGeminiApiKey = () => readEnv("GEMINI_API_KEY");
 
 export const getGeminiModel = () =>
   readEnv("GEMINI_MODEL") || DEFAULT_GEMINI_MODEL;
@@ -120,5 +116,3 @@ export const getResolverPrivateKey = () => {
 
   return normalizePrivateKey(privateKey);
 };
-
-export const getLegacyGeminiApiKeyEnvName = () => LEGACY_GEMINI_API_KEY_ENV;
