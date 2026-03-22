@@ -12,6 +12,10 @@
  * - This module uses narrow runtime checks and `unknown` to avoid unsafe `any` usage.
  * - The caller may pass a lightweight `toastArg` object; this file does not depend
  *   on any particular toast library type.
+ * - Important: ensureWalletOnFuji no longer treats an unknown chain id as "safe".
+ *   If `currentChainId` is undefined we will attempt to interact with the injected
+ *   provider to ensure the wallet is (or can be switched) to Avalanche Fuji. This
+ *   prevents accidental on-chain actions against mainnet or other networks.
  */
 
 import { AVALANCHE_FUJI_CHAIN_ID } from "@/lib/contracts";
@@ -54,7 +58,10 @@ export function getInjectedProvider(): EthProvider | undefined {
  * Attempts to programmatically ensure the user's wallet is on Avalanche Fuji (43113).
  *
  * Behavior:
- * - If `currentChainId` is undefined or already equals Fuji, returns true immediately.
+ * - If `currentChainId` is explicitly equal to Fuji, returns true immediately.
+ * - If `currentChainId` is undefined, do NOT assume safety: attempt to interact with the
+ *   injected provider to request a network switch / add the Fuji chain. The caller should
+ *   not proceed with on-chain actions until this function returns true.
  * - Attempts `wallet_switchEthereumChain`. If that call succeeds, we return false
  *   to indicate a wallet confirmation was requested (caller typically should abort to let user confirm).
  * - If `wallet_switchEthereumChain` throws, we attempt `wallet_addEthereumChain` to add Fuji.
@@ -66,7 +73,7 @@ export function getInjectedProvider(): EthProvider | undefined {
  * - setSubmitStatus?: (s: string|null) => void -- optional UI status setter
  * - toastArg?: { error?: (m: string) => void; info?: (m: string) => void } -- optional lightweight toast API
  *
- * Returns: Promise<boolean> -- true if no action required (already on Fuji or chain unknown),
+ * Returns: Promise<boolean> -- true if no action required (already on Fuji),
  *                              false if caller should abort/await user action or operation failed.
  */
 export async function ensureWalletOnFuji(
@@ -74,11 +81,9 @@ export async function ensureWalletOnFuji(
   setSubmitStatus?: (s: string | null) => void,
   toastArg?: { error?: (m: string) => void; info?: (m: string) => void }
 ): Promise<boolean> {
-  // Nothing to do when unknown or already Fuji.
-  if (
-    currentChainId === undefined ||
-    currentChainId === AVALANCHE_FUJI_CHAIN_ID
-  ) {
+  // Only skip when we explicitly detect the wallet is already Fuji.
+  // If currentChainId is undefined we must attempt to ensure the injected wallet is on Fuji.
+  if (currentChainId === AVALANCHE_FUJI_CHAIN_ID) {
     return true;
   }
 

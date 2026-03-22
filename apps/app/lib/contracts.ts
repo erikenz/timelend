@@ -4,7 +4,7 @@ import type { Abi, Address } from "viem";
 export const TIME_LEND_ABI = TimeLendMVPArtifact.abi as Abi;
 
 export const TIME_LEND_ADDRESS: Record<number, Address> = {
-  43113: "0xBb37498C6C5EE5BCBC11b6E9D1d4473Ba77a277E",
+  43113: "0x6E81D9199646994485bA3630e0097a7015395E7C",
 };
 
 export const AVALANCHE_FUJI_CHAIN_ID = 43_113 as const;

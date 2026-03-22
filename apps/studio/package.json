@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev.": "prisma studio --config ../../packages/database/prisma.config.ts --port 3005",
+    "dev": "prisma studio --config ../../packages/database/prisma.config.ts --port 3005",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "devDependencies": {
