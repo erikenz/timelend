@@ -1,8 +1,9 @@
-import { createOpenAI, generateText } from "@repo/ai";
+import { createGoogleGenerativeAI, generateText } from "@repo/ai";
 import { NextResponse } from "next/server";
+import { env } from "@/env";
 
-const openai = createOpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+const google = createGoogleGenerativeAI({
+  apiKey: env.GOOGLE_GENERATIVE_AI_API_KEY ?? "",
 });
 
 const VERIFICATION_SYSTEM_PROMPT = `You are an AI verification assistant for TimeLend, a personal commitment protocol where users stake money on completing tasks.
@@ -68,7 +69,7 @@ export const POST = async (req: Request) => {
         .join("\n");
 
       const { text } = await generateText({
-        model: openai("gpt-4o-mini"),
+        model: google("gemini-2.5-flash"),
         system: VERDICT_PROMPT,
         prompt: `Task Description: ${taskDescription}\n\nConversation History:\n${conversationHistory}\n\nProvide your final verification verdict.`,
       });
@@ -113,7 +114,7 @@ export const POST = async (req: Request) => {
       .join("\n");
 
     const { text } = await generateText({
-      model: openai("gpt-4o-mini"),
+      model: google("gemini-2.5-flash"),
       system: VERIFICATION_SYSTEM_PROMPT,
       prompt: `Task Description: ${taskDescription}\n\nConversation History:\n${conversationHistory}\n\nRespond to the user's latest message, helping them articulate their completion and gather evidence.`,
     });

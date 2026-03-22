@@ -1,8 +1,9 @@
-import { createOpenAI, streamText } from "@repo/ai";
+import { createGoogleGenerativeAI, streamText } from "@repo/ai";
 import { NextResponse } from "next/server";
+import { env } from "@/env";
 
-const openai = createOpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+const google = createGoogleGenerativeAI({
+  apiKey: env.GOOGLE_GENERATIVE_AI_API_KEY ?? "",
 });
 
 const VERIFICATION_PROMPT = `You are an AI task auditor for TimeLend, a personal commitment protocol where users stake money on completing tasks.
@@ -39,7 +40,7 @@ export const POST = async (req: Request) => {
     }
 
     const result = streamText({
-      model: openai("gpt-4o-mini"),
+      model: google("gemini-2.5-flash"),
       system: VERIFICATION_PROMPT,
       prompt: `Task Description: ${taskDescription}\n\nSubmitted Proof:\n${proofContent}`,
     });
