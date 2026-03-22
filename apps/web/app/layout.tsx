@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
-import { Navbar } from "../components/Navbar";
+import { Navbar } from "../components/app-navbar";
 import "./globals.css";
 import { Providers } from "./providers";
 
@@ -16,7 +16,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "TimeLend",
-  description: "AI-powered comitment platform",
+  description: "AI-verified commitment platform for a hackathon demo",
 };
 
 export default function RootLayout({

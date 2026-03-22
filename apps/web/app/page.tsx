@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import WalletConnect from "../components/WalletConnect";
+import WalletConnect from "../components/wallet-connect";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -11,8 +11,8 @@ export default function Home() {
       <section className={styles.hero}>
         <h1 className={styles.title}>TimeLend</h1>
         <p className={styles.description}>
-          Create commitments, submit proof, and claim funds with a simple
-          Avalanche Fuji workflow.
+          Commit funds to a deadline, submit proof, and let the backend resolve
+          the result on-chain.
         </p>
 
         <div className={styles.section}>

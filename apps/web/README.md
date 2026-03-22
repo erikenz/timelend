@@ -1,29 +1,49 @@
-# Getting Started
+# TimeLend Web
 
-First, run the development server:
+This app is the Vercel-ready Next.js frontend for TimeLend.
 
-```bash
-pnpm dev
-# Also works with NPM, YARN, BUN, ...
-```
+## Run Locally
 
-Browse [localhost:3001](http://localhost:3001) to see the result.
+1. Create the env file:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   ```bash
+   copy apps\web\.env.example apps\web\.env.local
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load Inter, a custom Google Font.
+2. Set the values in `apps/web/.env.local`:
 
-## Learn More
+   ```env
+   NEXT_PUBLIC_CONTRACT_ADDRESS=0x5192258383C8cc29571e57697eAD535b96535bdE
+   NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
+   ```
 
-Learn more about `Next.js` with the following resources:
+3. Start the web app:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   pnpm dev:web
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. Open `http://localhost:3001`.
 
-## Deploy on Vercel
+## Deploy To Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Import the repository into Vercel.
+2. Set `Root Directory` to `apps/web`.
+3. Confirm these settings:
+   - Framework Preset: `Next.js`
+   - Install Command: `pnpm install --frozen-lockfile`
+   - Build Command: `pnpm build`
+4. Set env vars:
+   - `NEXT_PUBLIC_CONTRACT_ADDRESS=0x5192258383C8cc29571e57697eAD535b96535bdE`
+   - `NEXT_PUBLIC_API_BASE_URL=https://your-api-domain`
+5. Deploy.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## What Must Stay Hand-Wired
+
+Do not replace these files with generated UI output:
+
+- `apps/web/lib/api.ts`
+- `apps/web/lib/contract.ts`
+- `apps/web/lib/wagmi.ts`
+
+They contain the actual API, wallet, and contract wiring for the product.

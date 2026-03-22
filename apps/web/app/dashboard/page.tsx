@@ -3,159 +3,141 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
-import { ClaimButton } from "../../components/ClaimButton";
-import WalletConnect from "../../components/WalletConnect";
+import { CommitmentCard } from "../../components/commitment-card";
+import WalletConnect from "../../components/wallet-connect";
+import {
+  type ApiCommitment,
+  type ApiCommitmentStats,
+  getCommitmentStats,
+  listCommitments,
+  submitProof,
+} from "../../lib/api";
 import styles from "../page.module.css";
 
-type Commitment = {
-  commitmentId: string;
-  user: string;
-  status: number;
-  deadline: string;
-  taskURI: string;
-};
+interface ProofSubmissionPayload {
+  proof: string;
+  proofFile: File | null;
+}
 
-type Stats = {
-  totalCommitments: number;
-  active: number;
-  completed: number;
-  failed: number;
-};
+const loadDashboardData = async (walletAddress: string) => {
+  const [commitmentsData, statsData] = await Promise.all([
+    listCommitments(walletAddress),
+    getCommitmentStats(walletAddress),
+  ]);
 
-const API_BASE_URL = "http://localhost:3001";
-
-const getStatusLabel = (status: number) => {
-  if (status === 0) {
-    return "Active";
-  }
-
-  if (status === 1) {
-    return "Completed";
-  }
-
-  if (status === 2) {
-    return "Failed";
-  }
-
-  return "Unknown";
-};
-
-const formatDeadline = (deadline: string) => {
-  const timestamp = Number(deadline);
-
-  if (Number.isNaN(timestamp)) {
-    return deadline;
-  }
-
-  return new Date(timestamp * 1000).toLocaleString();
+  return {
+    commitments: commitmentsData,
+    stats: statsData,
+  };
 };
 
 export default function DashboardPage() {
   const { address, isConnected } = useAccount();
-  const [commitments, setCommitments] = useState<Commitment[]>([]);
-  const [stats, setStats] = useState<Stats | null>(null);
+  const [commitments, setCommitments] = useState<ApiCommitment[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isSubmittingProof, setIsSubmittingProof] = useState<string | null>(null);
+  const [isSubmittingProof, setIsSubmittingProof] = useState<number | null>(
+    null
+  );
+  const [stats, setStats] = useState<ApiCommitmentStats | null>(null);
 
-  const fetchDashboardData = async () => {
-    if (!address) {
+  const fetchDashboardData = async (walletAddress?: string) => {
+    if (!walletAddress) {
       setCommitments([]);
+      setErrorMessage(null);
+      setFeedbackMessage(null);
       setStats(null);
       return;
     }
 
     setIsLoading(true);
+    setErrorMessage(null);
 
     try {
-      const [commitmentsResponse, statsResponse] = await Promise.all([
-        fetch(`${API_BASE_URL}/commitments/${address}?limit=5`),
-        fetch(`${API_BASE_URL}/stats?limit=5`),
-      ]);
+      const { commitments: commitmentsData, stats: statsData } =
+        await loadDashboardData(walletAddress);
 
-      const commitmentsData = (await commitmentsResponse.json().catch(() => null)) as
-        | { error?: string }
-        | Commitment[]
-        | null;
-      const statsData = (await statsResponse.json().catch(() => null)) as
-        | { error?: string }
-        | Stats
-        | null;
-
-      if (!commitmentsResponse.ok) {
-        throw new Error(
-          (commitmentsData as { error?: string } | null)?.error ||
-            "Failed to load commitments",
-        );
-      }
-
-      if (!statsResponse.ok) {
-        throw new Error(
-          (statsData as { error?: string } | null)?.error ||
-            "Failed to load stats",
-        );
-      }
-
-      setCommitments((commitmentsData as Commitment[]) ?? []);
-      setStats((statsData as Stats) ?? null);
+      setCommitments(commitmentsData);
+      setStats(statsData);
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Failed to load dashboard";
 
-      alert(message);
+      setErrorMessage(message);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    void fetchDashboardData();
+    const hydrateDashboard = async () => {
+      if (!address) {
+        setCommitments([]);
+        setErrorMessage(null);
+        setFeedbackMessage(null);
+        setStats(null);
+        return;
+      }
+
+      setIsLoading(true);
+      setErrorMessage(null);
+
+      try {
+        const { commitments: commitmentsData, stats: statsData } =
+          await loadDashboardData(address);
+
+        setCommitments(commitmentsData);
+        setStats(statsData);
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "Failed to load dashboard";
+
+        setErrorMessage(message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    hydrateDashboard().catch((error: unknown) => {
+      const message =
+        error instanceof Error ? error.message : "Failed to load dashboard";
+
+      setErrorMessage(message);
+    });
   }, [address]);
 
-  const handleSubmitProof = async (commitmentId: string) => {
+  const handleSubmitProof = async (
+    commitmentId: number,
+    payload: ProofSubmissionPayload
+  ) => {
     if (!address) {
-      alert("Please connect your wallet");
-      return;
+      throw new Error("Connect your wallet to continue.");
     }
 
-    const proof = window.prompt("Enter proof text");
-
-    if (!proof || proof.trim().length === 0) {
-      return;
-    }
-
+    setErrorMessage(null);
+    setFeedbackMessage(null);
     setIsSubmittingProof(commitmentId);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/submit-proof`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          commitmentId: Number(commitmentId),
-          user: address,
-          proof: proof.trim(),
-        }),
+      const response = await submitProof({
+        commitmentId,
+        proof: payload.proof,
+        proofFile: payload.proofFile,
+        walletAddress: address,
       });
 
-      const data = (await response.json().catch(() => null)) as
-        | { error?: string; status?: string }
-        | null;
+      setFeedbackMessage(
+        `AI result: ${response.status}. Resolution tx: ${response.txHash}`
+      );
 
-      if (!response.ok) {
-        throw new Error(data?.error || "Failed to submit proof");
-      }
-
-      if (data?.status) {
-        alert(`Proof result: ${data.status}`);
-      }
-
-      await fetchDashboardData();
+      await fetchDashboardData(address);
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Failed to submit proof";
 
-      alert(message);
+      setErrorMessage(message);
+      throw error;
     } finally {
       setIsSubmittingProof(null);
     }
@@ -165,7 +147,7 @@ export default function DashboardPage() {
     <section className={styles.dashboardContainer}>
       <h1 className={styles.title}>Dashboard</h1>
       <p className={styles.description}>
-        Track your commitments, submit proof, and claim completed ones.
+        Track your commitments and submit proof for AI verification.
       </p>
 
       <div className={styles.section}>
@@ -176,6 +158,21 @@ export default function DashboardPage() {
           <p className={styles.description}>Please connect your wallet</p>
         )}
       </div>
+
+      {isConnected ? (
+        <button
+          className={styles.buttonSecondary}
+          onClick={() => fetchDashboardData()}
+          type="button"
+        >
+          Refresh Dashboard
+        </button>
+      ) : null}
+
+      {feedbackMessage ? (
+        <p className={styles.feedback}>{feedbackMessage}</p>
+      ) : null}
+      {errorMessage ? <p className={styles.errorText}>{errorMessage}</p> : null}
 
       {stats ? (
         <div className={styles.cardGrid}>
@@ -188,8 +185,8 @@ export default function DashboardPage() {
             <p className={styles.cardMeta}>{stats.active}</p>
           </article>
           <article className={styles.card}>
-            <h2 className={styles.cardTitle}>Completed</h2>
-            <p className={styles.cardMeta}>{stats.completed}</p>
+            <h2 className={styles.cardTitle}>Passed</h2>
+            <p className={styles.cardMeta}>{stats.passed}</p>
           </article>
           <article className={styles.card}>
             <h2 className={styles.cardTitle}>Failed</h2>
@@ -202,48 +199,28 @@ export default function DashboardPage() {
         <p className={styles.description}>Loading commitments...</p>
       ) : null}
 
+      {isConnected ? null : (
+        <p className={styles.description}>
+          Connect a wallet to load your synced commitments.
+        </p>
+      )}
+
       {isConnected && !isLoading && commitments.length === 0 ? (
-        <p className={styles.description}>No commitments yet</p>
+        <p className={styles.description}>
+          No commitments yet. Create one first and it will appear here after the
+          backend sync.
+        </p>
       ) : null}
 
       <div className={styles.cardGrid}>
-        {commitments.map((commitment) => {
-          const statusLabel = getStatusLabel(commitment.status);
-          const isActive = commitment.status === 0;
-          const isCompleted = commitment.status === 1;
-          const isFailed = commitment.status === 2;
-          const isSubmitting = isSubmittingProof === commitment.commitmentId;
-
-          return (
-            <article className={styles.card} key={commitment.commitmentId}>
-              <h2 className={styles.cardTitle}>{commitment.taskURI}</h2>
-              <p className={styles.cardMeta}>
-                Commitment ID: {commitment.commitmentId}
-              </p>
-              <p className={styles.cardMeta}>
-                Deadline: {formatDeadline(commitment.deadline)}
-              </p>
-              <p className={styles.cardMeta}>Status: {statusLabel}</p>
-
-              {isActive ? (
-                <button
-                  className={styles.buttonPrimary}
-                  disabled={isSubmitting}
-                  onClick={() => void handleSubmitProof(commitment.commitmentId)}
-                  type="button"
-                >
-                  {isSubmitting ? "Submitting..." : "Submit Proof"}
-                </button>
-              ) : null}
-
-              {isCompleted ? (
-                <ClaimButton commitmentId={commitment.commitmentId} />
-              ) : null}
-
-              {isFailed ? <p className={styles.cardMeta}>Lost</p> : null}
-            </article>
-          );
-        })}
+        {commitments.map((commitment) => (
+          <CommitmentCard
+            commitment={commitment}
+            isSubmitting={isSubmittingProof === commitment.commitmentId}
+            key={commitment.commitmentId}
+            onSubmitProof={handleSubmitProof}
+          />
+        ))}
       </div>
     </section>
   );

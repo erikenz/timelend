@@ -7,14 +7,15 @@
   "license": "UNLICENSED",
   "scripts": {
     "dev": "turbo run dev",
+    "dev:api": "pnpm --filter api dev",
+    "dev:web": "pnpm --filter web dev",
     "build": "turbo run build",
-    "test": "turbo run test",
-    "test:e2e": "turbo run test:e2e",
+    "build:api": "pnpm --filter api build",
+    "build:web": "pnpm --filter web build",
     "lint": "turbo run lint",
     "clean": "git clean -xdf node_modules",
     "postinstall": "pnpm run skills:install",
     "skills:install": "pnpm dlx skills experimental_install",
-    "migrate": "cd packages/database && pnpm dlx prisma format && pnpm dlx prisma generate && pnpm dlx prisma migrate dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check": "ultracite check",
     "fix": "ultracite fix"
